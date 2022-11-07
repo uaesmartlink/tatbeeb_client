@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hallo_doctor_client/app/models/doctor_model.dart';
 import 'package:hallo_doctor_client/app/service/doctor_service.dart';
+import 'package:get/get.dart';
 
 class SearchDoctorDelegat extends SearchDelegate<Doctor> {
   @override
@@ -30,7 +31,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
   Widget buildResults(BuildContext context) => FutureBuilder<List<Doctor>>(
       future: DoctorService().searchDoctor(query),
       builder: (contex, snapshot) {
-       // if (query.isEmpty) return buildNoSuggestions();
+        // if (query.isEmpty) return buildNoSuggestions();
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return Center(child: CircularProgressIndicator());
@@ -54,7 +55,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
   Widget buildSuggestions(BuildContext context) => FutureBuilder<List<Doctor>>(
         future: DoctorService().searchDoctor(query),
         builder: (context, snapshot) {
-         // if (query.isEmpty) return buildNoSuggestions();
+          //  if (query.isEmpty) return buildNoSuggestions();
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator());
@@ -72,6 +73,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
         itemCount: suggestions.length,
         itemBuilder: (context, index) {
           final suggestion = suggestions[index];
+
           return Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -89,13 +91,11 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
               },
               leading: Icon(Icons.person),
               // title: Text(suggestion),
-              title: Text(
-                  suggestion.doctorName!,
+              title: Text(suggestion.doctorName!,
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 18,
-                  )
-              ),
+                  )),
             ),
           );
         },
@@ -110,7 +110,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
 
   Widget buildResultSuccess(List<Doctor> doctor) => ListView.builder(
       itemCount: doctor.length,
-      itemBuilder: (contex, index) {
+      itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
               color: Colors.white,
@@ -123,7 +123,8 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
               ]),
           child: ListTile(
             onTap: () {
-              close(contex, doctor[index]);
+              Get.toNamed('/detail-doctor',
+                  arguments: doctor[index]);
             },
             leading: CircleAvatar(
               backgroundImage:
