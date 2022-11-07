@@ -126,11 +126,13 @@ class DoctorService {
       var doctorRef = await FirebaseFirestore.instance
           .collection('Doctors')
           .where('doctorName',
-              isGreaterThanOrEqualTo: doctorName,
-              isLessThan: doctorName.substring(0, doctorName.length - 1) +
-                  String.fromCharCode(
-                      doctorName.codeUnitAt(doctorName.length - 1) + 1)
-          )
+            isGreaterThanOrEqualTo: doctorName,
+            isLessThan: doctorName +'z',
+            /*doctorName.substring(0, doctorName.length - 1) +
+                String.fromCharCode(
+                    doctorName.codeUnitAt(doctorName.length - 1) + 1)*/
+
+      )
 
           .get();
       List<Doctor> listDoctor = doctorRef.docs.map((doc) {

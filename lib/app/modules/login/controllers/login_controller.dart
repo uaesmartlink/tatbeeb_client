@@ -27,11 +27,11 @@ class LoginController extends GetxController {
   }
 
   void loginGoogle() {
-    authService.loginGoogle().then((value) => Get.offAllNamed('/dashboard'));
+    authService.loginGoogle().then((value) => Get.offAllNamed('/home'));
   }
 
   void loginFacebook() {
-    authService.loginFacebook().then((value) => Get.offAllNamed('/dashboard'));
+    authService.loginFacebook().then((value) => Get.offAllNamed('/home'));
   }
 
   void login() async {
@@ -41,7 +41,7 @@ class LoginController extends GetxController {
       EasyLoading.show();
 
       authService.login(username, password).then((value) {
-        Get.offAllNamed('/dashboard');
+        Get.offAllNamed('/home');
       }).onError((error, stackTrace) {
         Fluttertoast.showToast(
             msg: error.toString(), toastLength: Toast.LENGTH_LONG);

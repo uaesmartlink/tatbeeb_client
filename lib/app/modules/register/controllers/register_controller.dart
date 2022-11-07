@@ -35,7 +35,7 @@ class RegisterController extends GetxController {
         EasyLoading.show(
             status: 'loading...', maskType: EasyLoadingMaskType.black);
         authService.register(fullName,phone,gender,age,username, email, password).then((value) {
-          Get.offAllNamed('/dashboard');
+          Get.offAllNamed('/home');
         }).onError((error, stackTrace) {
           Fluttertoast.showToast(
               msg: error.toString(), toastLength: Toast.LENGTH_LONG);
