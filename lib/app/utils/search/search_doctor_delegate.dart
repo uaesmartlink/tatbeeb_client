@@ -30,7 +30,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
   Widget buildResults(BuildContext context) => FutureBuilder<List<Doctor>>(
       future: DoctorService().searchDoctor(query),
       builder: (contex, snapshot) {
-        if (query.isEmpty) return buildNoSuggestions();
+       // if (query.isEmpty) return buildNoSuggestions();
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return Center(child: CircularProgressIndicator());
@@ -54,7 +54,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
   Widget buildSuggestions(BuildContext context) => FutureBuilder<List<Doctor>>(
         future: DoctorService().searchDoctor(query),
         builder: (context, snapshot) {
-          if (query.isEmpty) return buildNoSuggestions();
+         // if (query.isEmpty) return buildNoSuggestions();
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return Center(child: CircularProgressIndicator());
@@ -72,8 +72,6 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
         itemCount: suggestions.length,
         itemBuilder: (context, index) {
           final suggestion = suggestions[index];
-          final queryText = suggestion.doctorName!.substring(0, query.length);
-          final remainingText = suggestion.doctorName!.substring(query.length);
           return Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -83,8 +81,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
                     color: Color(0xFF00000),
                     blurRadius: 40,
                   ),
-                ]
-            ),
+                ]),
             child: ListTile(
               onTap: () {
                 query = suggestion.doctorName!;
@@ -92,29 +89,18 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
               },
               leading: Icon(Icons.person),
               // title: Text(suggestion),
-              title: RichText(
-                text: TextSpan(
-                  text: queryText,
+              title: Text(
+                  suggestion.doctorName!,
                   style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
                     fontSize: 18,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: remainingText,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
+                  )
               ),
             ),
           );
         },
       );
+
   Widget buildNoSuggestions() => Center(
         child: Text(
           'No suggestions!',
@@ -134,8 +120,7 @@ class SearchDoctorDelegat extends SearchDelegate<Doctor> {
                   color: Color(0xFF00000),
                   blurRadius: 40,
                 ),
-              ]
-          ),
+              ]),
           child: ListTile(
             onTap: () {
               close(contex, doctor[index]);

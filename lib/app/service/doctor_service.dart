@@ -6,25 +6,26 @@ import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 class DoctorService {
   //Added by N
   //Get list of all doctor schedule base on time slot
-  Future<List<TimeSlot>> getAllDoctorTimeSlotNow() async{
+  Future<List<TimeSlot>> getAllDoctorTimeSlotNow() async {
     try {
       //List<TimeSlot> listTimeslot = [];
-      QuerySnapshot doctorScheduleRef =await FirebaseFirestore.instance
+      QuerySnapshot doctorScheduleRef = await FirebaseFirestore.instance
           .collection('DoctorTimeslot')
           .where('available', isEqualTo: true)
           .get();
-       var listTimeslot=doctorScheduleRef.docs.map((doc) {
-        var data=doc.data() as Map<String,dynamic>;
+      var listTimeslot = doctorScheduleRef.docs.map((doc) {
+        var data = doc.data() as Map<String, dynamic>;
         data['timeSlotId'] = doc.reference.id;
         TimeSlot timeSlot = TimeSlot.fromJson(data);
         return timeSlot;
       }).toList();
-       if (doctorScheduleRef.docs.isEmpty) return [];
+      if (doctorScheduleRef.docs.isEmpty) return [];
       return listTimeslot;
     } catch (e) {
       return Future.error(e.toString());
     }
   }
+
   //End by N
 
   //Get list of Doctor schedule base on doctor id
@@ -75,7 +76,7 @@ class DoctorService {
           .get();
 
       if (listDoctorQuery.docs.isEmpty) return [];
-       listDoctorQuery.docs.map((doc) {
+      listDoctorQuery.docs.map((doc) {
         var data = doc.data();
         data['doctorId'] = doc.reference.id;
         Doctor doctor = Doctor.fromJson(data);
@@ -122,33 +123,21 @@ class DoctorService {
   Future<List<Doctor>> searchDoctor(String doctorName) async {
     try {
       //print('doctor name : $doctorName');
-      if (doctorName.isEmpty) return [];
-      var doctorRef = await FirebaseFirestore.instance
-          .collection('Doctors')
-        /*   .where('doctorName',
-                isGreaterThanOrEqualTo: doctorName,
-                isLessThan: doctorName +'z',
-               doctorName.substring(0, doctorName.length - 1) +
-                    String.fromCharCode(
-                        doctorName.codeUnitAt(doctorName.length - 1) + 1)
-          )*/
-          .get();
-          List<Doctor> listDoctor = [];
-          doctorRef.docs.forEach((element) {
-            var data = element.data();
-            data['doctorId'] = element.reference.id;
-            Doctor doctor = Doctor.fromJson(data);
-            if(doctor.doctorName?.toLowerCase().contains(doctorName.toLowerCase()) == true)
-              listDoctor.add(doctor);
-          });
-     /* List<Doctor> listDoctor = doctorRef.docs.map((doc) {
-        var data = doc.data();
-        data['doctorId'] = doc.reference.id;
+      var doctorRef =
+          await FirebaseFirestore.instance.collection('Doctors').get();
+      List<Doctor> listDoctor = [];
+      doctorRef.docs.forEach((element) {
+        var data = element.data();
+        data['doctorId'] = element.reference.id;
         Doctor doctor = Doctor.fromJson(data);
-        return doctor;
-      }).toList();*/
+        listDoctor.add(doctor);
+        if (!doctorName.isEmpty) {
+          if (!doctor.doctorName!
+              .toLowerCase()
+              .contains(doctorName.toLowerCase())) listDoctor.remove(doctor);
+        }
+      });
       listDoctor.removeWhere((element) => element.accountStatus != 'active');
-      //print('data searchnya : $listDoctor');
       return listDoctor;
     } catch (e) {
       return Future.error(e.toString());
