@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TatbeebApp</string>
+    <string name="facebook_app_id">644777067103269</string>
+    <string name="fb_login_protocol_scheme">91e5e15499462293c0f359ce6b2f4768</string>
+    <string name="facebook_client_token">39dad7f9830f616f9aea0fd33dd5dc51</string>
+
+</resources>
