@@ -59,7 +59,7 @@ class RegisterView extends GetView<RegisterController> {
                           node.nextFocus();
                         },
                         validator: ((value) {
-                          if (value!.length < 3) {
+                          if (value!.length <= 3) {
                             return 'Full name must be  3 or more characters'.tr;
                           } else {
                             return null;
@@ -224,8 +224,8 @@ class RegisterView extends GetView<RegisterController> {
                                   node.nextFocus();
                                 },
                                 validator: ((value) {
-                                  if (value!.length < 3) {
-                                    return 'Password must be more than four characters'.tr;
+                                  if (value!.length < 6) {
+                                    return 'Password must be more than six characters'.tr;
                                   } else {
                                     return null;
                                   }
