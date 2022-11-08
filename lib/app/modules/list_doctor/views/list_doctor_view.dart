@@ -17,7 +17,7 @@ class ListDoctorView extends GetView<ListDoctorController> {
             text:'Doctor'.tr,
             widget: controller.obx(
                 (listDoctor) => Padding(
-                  padding: const EdgeInsets.only(bottom: 151),
+                  padding: const EdgeInsets.only(bottom: 180),
                   child: ListView.builder(
                         padding: EdgeInsets.only(top: 10.0),
                         itemCount: listDoctor!.length,
