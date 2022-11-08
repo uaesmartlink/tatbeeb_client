@@ -40,6 +40,8 @@ class HomeController extends GetxController {
 
   void toProfile() {
     Get.find<DashboardController>().selectedIndex = 3;
+    Get.toNamed('/profile');
+
   }
 
   void toOnlineDoctors() {

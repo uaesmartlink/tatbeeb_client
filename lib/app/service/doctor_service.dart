@@ -68,13 +68,20 @@ class DoctorService {
       DoctorCategory doctorCategory) async {
     try {
       List<Doctor> listDoctor = [];
-      var listDoctorQuery = await FirebaseFirestore.instance
-          .collection('Doctors')
-          .where('doctorCategory.categoryId',
-              isEqualTo: doctorCategory.categoryId)
-          .where('accountStatus', isEqualTo: 'active')
-          .get();
-
+      var listDoctorQuery;
+      if (doctorCategory.categoryName == "All Doctors") {
+        listDoctorQuery =
+            await FirebaseFirestore.instance.collection('Doctors')
+                .where('accountStatus', isEqualTo: 'active')
+                .get();
+      } else {
+        listDoctorQuery = await FirebaseFirestore.instance
+            .collection('Doctors')
+            .where('doctorCategory.categoryId',
+                isEqualTo: doctorCategory.categoryId)
+            .where('accountStatus', isEqualTo: 'active')
+            .get();
+      }
       if (listDoctorQuery.docs.isEmpty) return [];
       listDoctorQuery.docs.map((doc) {
         var data = doc.data();
@@ -136,6 +143,7 @@ class DoctorService {
               .toLowerCase()
               .contains(doctorName.toLowerCase())) listDoctor.remove(doctor);
         }
+        listDoctor.add(doctor);
       });
       listDoctor.removeWhere((element) => element.accountStatus != 'active');
       return listDoctor;

@@ -146,6 +146,7 @@ const Map<String, String> en = {
   'Enter Email address associated with your account':
       'Enter Email address associated with your account',
   'Book Appointment': 'Book Appointment',
+  'Book your appointment now':'Book your appointment now',
   'Name must be more than two characters':
       'Name must be more than two characters',
   'Password cannot be empty': 'Password cannot be empty',

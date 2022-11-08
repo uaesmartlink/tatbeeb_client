@@ -15,7 +15,7 @@ class DoctorCategoryView extends GetView<DoctorCategoryController> {
         text: 'Doctor Specialist'.tr,
         isPadding: 0,
         widget: controller.obx((listCategory) => Padding(
-              padding: const EdgeInsets.only(bottom: 200),
+              padding: const EdgeInsets.only(bottom: 170),
               child: GridView.builder(
                   padding: const EdgeInsets.all(20),
                   itemCount: listCategory!.length,
@@ -23,7 +23,7 @@ class DoctorCategoryView extends GetView<DoctorCategoryController> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15,
-                    childAspectRatio: 3.5 / 4,
+                    childAspectRatio: 3 / 4,
                   ),
                   itemBuilder: (context, index) {
                     return InkWell(
@@ -46,13 +46,13 @@ class DoctorCategoryView extends GetView<DoctorCategoryController> {
                           child: Column(
                             children: [
                               Expanded(
-                                  flex: 2,
+                                  flex: 5,
                                   child: Container(
                                     child: CachedNetworkImage(
                                         imageUrl: listCategory[index].iconUrl!),
                                   )),
                               Expanded(
-                                flex: 1,
+                                flex: 4,
                                 child: Container(
                                   padding: EdgeInsets.only(top: 20),
                                   child: Text(

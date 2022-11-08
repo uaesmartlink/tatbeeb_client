@@ -23,7 +23,15 @@ class DoctorCategoryService {
 
     for (var category in allData) {
       DoctorCategory doc = DoctorCategory.fromJson(category);
-      _doctorCategory.add(doc);
+      if(doc.categoryName == 'All Doctors') {
+        _doctorCategory.add(doc);
+        break;
+      }
+    }
+    for (var category in allData) {
+      DoctorCategory doc = DoctorCategory.fromJson(category);
+      if(doc.categoryName != 'All Doctors')
+        _doctorCategory.add(doc);
     }
 
     return _doctorCategory;

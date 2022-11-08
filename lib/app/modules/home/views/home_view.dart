@@ -57,7 +57,7 @@ class HomeView extends GetView<HomeController> {
                         IconCard(
                           iconData: Icons.event_note,
                           text: 'Book Appointment'.tr,
-                          text1: 'Consultation with a specialist'.tr,
+                          text1: 'Book your appointment now'.tr,
                           color1: Color(0xFF76e6da),
                           color2: Color(0xFF1b4170),
                           onTap: () {
@@ -67,6 +67,7 @@ class HomeView extends GetView<HomeController> {
                         IconCard(
                           iconData: Icons.videocam,
                           text: 'Quick consultation'.tr,
+                          text1: 'Consultation with a specialist'.tr,
                           color1: Color(0xFFa80000),
                           color2: Color(0xFFf50000),
                           onTap: () {

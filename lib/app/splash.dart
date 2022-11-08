@@ -4,13 +4,14 @@ import 'package:splashscreen/splashscreen.dart';
 
 class MySplashScreen extends StatelessWidget {
   final bool isUserLogin;
-  const MySplashScreen({required this.isUserLogin,super.key});
+
+  const MySplashScreen({required this.isUserLogin, super.key});
 
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
       seconds: 3,
-      photoSize: MediaQuery.of(context).size.width/2.5,
+      photoSize: MediaQuery.of(context).size.width / 2.5,
       navigateAfterSeconds: isUserLogin ? AppPages.HOME : AppPages.OnBoarding,
       image: Image.asset("assets/icons/splash.gif"),
       gradientBackground: LinearGradient(
@@ -27,7 +28,6 @@ class MySplashScreen extends StatelessWidget {
       styleTextUnderTheLoader: TextStyle(),
       loadingText: Text(''),
       backgroundColor: Color(0xFF1b4170),
-
     );
   }
 }

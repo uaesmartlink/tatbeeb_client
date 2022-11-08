@@ -21,14 +21,14 @@ class IconCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 119,
+        height: 130,
         width: 150,
         child: Stack(
           children: [
             Positioned(
               bottom: 0,
               child: Container(
-                height: 59,
+                height: 70,
                 width: 150,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
