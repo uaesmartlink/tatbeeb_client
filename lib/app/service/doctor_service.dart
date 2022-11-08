@@ -138,12 +138,14 @@ class DoctorService {
         data['doctorId'] = element.reference.id;
         Doctor doctor = Doctor.fromJson(data);
         listDoctor.add(doctor);
+        print(doctor.doctorName);
+        print(doctorName.isEmpty);
         if (!doctorName.isEmpty) {
           if (!doctor.doctorName!
               .toLowerCase()
-              .contains(doctorName.toLowerCase())) listDoctor.remove(doctor);
+              .contains(doctorName.toLowerCase()))
+            listDoctor.remove(doctor);
         }
-        listDoctor.add(doctor);
       });
       listDoctor.removeWhere((element) => element.accountStatus != 'active');
       return listDoctor;

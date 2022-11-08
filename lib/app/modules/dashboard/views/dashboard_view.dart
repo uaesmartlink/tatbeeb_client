@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/modules/appointment/views/appointment_view.dart';
 import 'package:hallo_doctor_client/app/modules/balance/views/balance_view.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //import 'package:hallo_doctor_client/app/modules/doctor_category/views/doctor_category_view.dart';
 import 'package:hallo_doctor_client/app/modules/home/views/home_view.dart';
@@ -18,10 +19,11 @@ class DashboardView extends GetView<DashboardController> {
     BalanceView(),
     ProfileView()
   ];
+  DateTime? currentBackPressTime;
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
+    return WillPopScope(
         child: MyNavegateBar(),
         onWillPop: () async {
           String? routeName = ModalRoute.of(context)?.settings.name;
@@ -32,37 +34,48 @@ class DashboardView extends GetView<DashboardController> {
             controller.selectedIndex = 0;
             return false;
           }
-          if(routeName == "/home"){
-            if(showExitPopup(context) == true)
-              FlutterExitApp.exitApp();
-            return true;
+          if (routeName == "/home") {
+            DateTime now = DateTime.now();
+            if (currentBackPressTime == null ||
+                now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+              currentBackPressTime = now;
+              Fluttertoast.showToast(
+                msg: "Press Back Button Again to Exit".tr,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.TOP,
+              );
+              return false;
+            }
+            FlutterExitApp.exitApp();
+            return false;
           }
           return true;
         });
   }
+
   Future<bool> showExitPopup(BuildContext context) async {
-    return await showDialog( //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Exit App'),
-        content: Text('Do you want to exit an App?'),
-        actions:[
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            //return false when click on "NO"
-            child:Text('No'),
+    return await showDialog(
+          //show confirm dialogue
+          //the return value will be from "Yes" or "No" options
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Exit App'),
+            content: Text('Do you want to exit an App?'),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                //return false when click on "NO"
+                child: Text('No'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                //return true when click on "Yes"
+                child: Text('Yes'),
+              ),
+            ],
           ),
-
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            //return true when click on "Yes"
-            child:Text('Yes'),
-          ),
-
-        ],
-      ),
-    )??false; //if showDialouge had returned null, then return false
+        ) ??
+        false; //if showDialouge had returned null, then return false
   }
 }
 
