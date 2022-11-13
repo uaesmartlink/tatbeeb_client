@@ -150,6 +150,8 @@ const Map<String, String> ar = {
   'Book your appointment now': 'احجز موعدك الآن',
   'Press Back Button Again to Exit': 'انقر مرة أخرى للخروج من التطبيق',
   'Name must be more than two characters': 'يجب أن يكون الاسم أكثر من حرفين',
+  'English':'الإنجليزية',
+  'Arabic':'العربية',
   'Password cannot be empty': 'لا يمكن أن تكون كلمة المرور فارغة',
   'Forgot Password ?': 'هل نسيت كلمة المرور ؟',
   'Don\'t have an account, ': 'ليس لديك حساب،',

@@ -19,7 +19,7 @@ class ProfileController extends GetxController {
   UserService userService = Get.find();
   //PaymentService paymentService = Get.find();
   var username = ''.obs;
-  var profilePic = ''.obs;
+  var profilePic = 'assets/images/user.png'.obs;
   var appVersion = ''.obs;
   var email = ''.obs;
   var newPassword = ''.obs;

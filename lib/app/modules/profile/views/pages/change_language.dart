@@ -3,14 +3,18 @@ import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/modules/profile/controllers/profile_controller.dart';
 
 import '../../../../utils/localization.dart';
+import '../../../dashboard/views/dashboard_view.dart';
 
 
 class ChangeLanguagePage extends GetView<ProfileController> {
 
   ChangeLanguagePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    var locale = Get.locale;
+    print('------');
+    print(locale);
+    print('------');
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -36,7 +40,6 @@ class ChangeLanguagePage extends GetView<ProfileController> {
                 width: MediaQuery.of(context).size.width,
                 child: Card(
                   elevation: 3,
-                  shadowColor: Colors.black26,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)
                   ),
@@ -48,11 +51,14 @@ class ChangeLanguagePage extends GetView<ProfileController> {
                         TextButton(
                             onPressed: (){
                               Get.updateLocale(LocalizationService.locales[0]);
+                              locale = Get.locale;
+                              Get.toNamed('/home');
+                              DashboardView().controller.selectedIndex = 0;
                             },
                             child: Text(
-                              'English',
+                              'English'.tr,
                               style: TextStyle(
-                                  color: Colors.grey,
+                                  color: locale.toString() == 'en_US' ? Colors.black : Colors.grey,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 25
                               ),
@@ -62,11 +68,14 @@ class ChangeLanguagePage extends GetView<ProfileController> {
                         TextButton(
                             onPressed: (){
                               Get.updateLocale(LocalizationService.locales[1]);
+                              locale = Get.locale;
+                              Get.toNamed('/home');
+                              DashboardView().controller.selectedIndex = 0;
                             },
                             child: Text(
-                              'عربي',
+                              'Arabic'.tr,
                               style: TextStyle(
-                                  color: Colors.grey,
+                                  color: locale.toString() == 'ar' ? Colors.black : Colors.grey,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 25
                               ),
@@ -79,7 +88,9 @@ class ChangeLanguagePage extends GetView<ProfileController> {
               ),
             ],
           ),
-        )
+
+        ),
+      bottomNavigationBar: DashboardView(),
     );
   }
 }

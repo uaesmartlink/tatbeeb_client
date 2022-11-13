@@ -4,6 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/modules/profile/controllers/profile_controller.dart';
 import 'package:hallo_doctor_client/app/modules/widgets/submit_button.dart';
+import '../../../dashboard/views/dashboard_view.dart';
 
 class ChangePasswordPage extends GetView<ProfileController> {
   final _formKey = GlobalKey<FormBuilderState>();
@@ -114,6 +115,8 @@ class ChangePasswordPage extends GetView<ProfileController> {
                   ],
                 )),
           ),
-        ));
+        ),
+      bottomNavigationBar: DashboardView(),
+    );
   }
 }
