@@ -11,6 +11,7 @@ class TimeSlotService {
           .collection('DoctorTimeslot')
           .where('bookByWho.userId', isEqualTo: userId)
           .where('charged', isEqualTo: true)
+
           .get();
       if (documentSnapshot.docs.isEmpty) {
         return [];

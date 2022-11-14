@@ -11,7 +11,7 @@ TimeSlot _$TimeSlotFromJson(Map<String, dynamic> json) => TimeSlot(
       timeSlot: TimeSlot._dateTimeFromJson(json['timeSlot'] as Timestamp?),
       duration: json['duration'] as int?,
       price: double.parse(json['price'].toString()),
-      bookedAmount: double.parse((json['bookedAmount'])??0.0.toString()) ,
+      bookedAmount: json['bookedAmount'] != null ? double.parse(json['price'].toString()) : 0.0,
       bookedDuration: json['bookedDuration'] as int?,
       available: json['available'] as bool?,
       doctorid: json['doctorId'] as String?,

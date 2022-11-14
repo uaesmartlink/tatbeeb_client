@@ -36,6 +36,9 @@ class DoctorService {
       QuerySnapshot doctorScheduleRef = await FirebaseFirestore.instance
           .collection('DoctorTimeslot')
           .where('doctorId', isEqualTo: doctor.doctorId)
+          .where('available', isEqualTo: true)
+          .where('timeSlot',isGreaterThanOrEqualTo: DateTime.now())
+          .orderBy('timeSlot')
           .get();
       var listTimeslot = doctorScheduleRef.docs.map((doc) {
         var data = doc.data() as Map<String, dynamic>;
