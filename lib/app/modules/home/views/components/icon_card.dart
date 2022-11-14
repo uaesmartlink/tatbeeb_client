@@ -12,12 +12,19 @@ class IconCard extends StatelessWidget {
   final String? text1;
   final VoidCallback? onTap;
 
-  const IconCard({Key? key, this.iconData,this.color1,this.color2, this.text,this.text1, this.onTap})
+  const IconCard(
+      {Key? key,
+      this.iconData,
+      this.color1,
+      this.color2,
+      this.text,
+      this.text1,
+      this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var width=MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -32,40 +39,47 @@ class IconCard extends StatelessWidget {
                 width: 150,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 40,
+                        color: Colors.black,
+                        blurRadius: 3,
                       ),
-                    ]
-                ),
+                    ]),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: Get.height/35,),
+                    SizedBox(
+                      height: Get.height / 35,
+                    ),
                     Text(
                       text!,
                       style: TextStyle(
-                          color:Color(0xFF677294),
-                          fontSize:  (Get.locale==LocalizationService.locales[0])?width/30:width/33,
-                          fontWeight: FontWeight.bold
-                      ),
+                          color: Color(0xFF677294),
+                          fontSize:
+                              (Get.locale == LocalizationService.locales[0])
+                                  ? width / 27
+                                  : width / 27,
+                          fontWeight: FontWeight.bold),
                     ),
-                    if(text1!=null)Text(
-                      text1!,
-                      style: TextStyle(
-                        color:Color(0xFF677294),
-                        fontSize: (Get.locale==LocalizationService.locales[0])?width/37:width/39 ,
+                    if (text1 != null)
+                      Text(
+                        text1!,
+                        style: TextStyle(
+                          color: Color(0xFF677294),
+                          fontSize:
+                              (Get.locale == LocalizationService.locales[0])
+                                  ? width / 27
+                                  : width / 27,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
             ),
             Positioned(
-              left: 37,
+              left: 40,
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -73,17 +87,18 @@ class IconCard extends StatelessWidget {
                     gradient: LinearGradient(
                         begin: Alignment.bottomLeft,
                         end: Alignment.topRight,
-                        colors: [
-                          color1!,
-                          color2!
-                        ]
-                    )
-                ),
+                        colors: [color1!, color2!])),
                 child: Icon(
-                    iconData,
-                    size: 45,
-                    color: Colors.white,
-                  ),
+                  iconData,
+                  size: 45,
+                  shadows: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius:3,
+                    ),
+                  ],
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

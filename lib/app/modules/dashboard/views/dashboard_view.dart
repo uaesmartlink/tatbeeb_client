@@ -82,63 +82,68 @@ class DashboardView extends GetView<DashboardController> {
 class MyNavegateBar extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Color(0xFF1a3e6c),
-      unselectedItemColor: Colors.grey[500],
-      iconSize: 30,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-          ),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.event_note,
+
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Color(0xFF1a3e6c),
+          unselectedItemColor: Colors.grey[500],
+          iconSize: 30,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: '',
             ),
-            label: ''),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.payment_rounded,
-            ),
-            label: ''),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            label: ''),
-      ],
-      currentIndex: controller.selectedIndex,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            {
-              Get.toNamed('/home');
-              controller.selectedIndex = 0;
-              break;
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.event_note,
+                ),
+                label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.payment_rounded,
+                ),
+                label: ''),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                ),
+                label: ''),
+          ],
+          currentIndex: controller.selectedIndex,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                {
+                  Get.toNamed('/home');
+                  controller.selectedIndex = 0;
+                  break;
+                }
+              case 1:
+                {
+                  Get.toNamed('/appointment');
+                  controller.selectedIndex = 1;
+                  break;
+                }
+              case 2:
+                {
+                  Get.toNamed('/balance_page');
+                  controller.selectedIndex = 2;
+                  break;
+                }
+              case 3:
+                {
+                  Get.toNamed('/profile');
+                  controller.selectedIndex = 3;
+                  break;
+                }
             }
-          case 1:
-            {
-              Get.toNamed('/appointment');
-              controller.selectedIndex = 1;
-              break;
-            }
-          case 2:
-            {
-              Get.toNamed('/balance_page');
-              controller.selectedIndex = 2;
-              break;
-            }
-          case 3:
-            {
-              Get.toNamed('/profile');
-              controller.selectedIndex = 3;
-              break;
-            }
-        }
-      },
+          },
+      ),
     );
+
   }
 }

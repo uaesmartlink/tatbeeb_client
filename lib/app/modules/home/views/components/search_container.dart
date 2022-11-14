@@ -43,11 +43,7 @@ class SearchContainer extends StatelessWidget{
                               )
                           ),
                         ),
-                     Icon(
-                      Icons.close,
-                      color: Color(0xFF677294),
-                       size: 15,
-                    ),
+
                   ],
                 ),
               ),
