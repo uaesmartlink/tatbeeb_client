@@ -23,7 +23,7 @@ class LabelButton extends StatelessWidget {
               title,
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600),
             ),
             SizedBox(
@@ -33,7 +33,7 @@ class LabelButton extends StatelessWidget {
               subTitle,
               style: TextStyle(
                   color: Color(0xFF125a9a),
-                  fontSize: 13,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600),
             ),
           ],

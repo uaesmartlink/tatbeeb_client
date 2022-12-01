@@ -19,7 +19,7 @@ class BackButton extends StatelessWidget {
               child: Icon(Icons.arrow_back_ios, color: Colors.white),
             ),
             Text('Back',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500))
           ],
         ),
       ),

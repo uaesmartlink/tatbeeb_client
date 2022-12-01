@@ -1,4 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 //import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -18,15 +19,21 @@ class DetailOrderController extends GetxController {
   List<OrderDetailModel> orderDetail = List.empty();
   TimeSlot selectedTimeSlot = Get.arguments[0];
   Doctor doctor = Get.arguments[1];
+  int duration = Get.arguments[2];
   PaymentService paymentService = Get.find();
   NotificationService notificationService = Get.find<NotificationService>();
   late String clientSecret;
+  late double price;
+
   @override
-  void onInit() async{
+  void onInit() async {
     super.onInit();
     userService.getUsername().then((value) {
       username.value = value;
     });
+    price = selectedTimeSlot.price!;
+    price = duration / 15 * price;
+
   }
 
   @override
@@ -40,25 +47,24 @@ class DetailOrderController extends GetxController {
         itemId: selectedTimeSlot.timeSlotId!,
         itemName: 'Consultation with ${doctor.doctorName!}',
         time: time,
-        duration: '${selectedTimeSlot.duration} minute',
-        price: currencySign + selectedTimeSlot.price.toString());
+        duration: '${duration} minute',
+        price: currencySign + price.toString());
     return orderDetail;
   }
 
-  void makePayment()async{
+  void makePayment() async {
     EasyLoading.show();
     try {
       String? userId = userService.currentUser!.uid;
       double? balance = await userService.getUserBalance(userId);
-      if (balance! > selectedTimeSlot.price!) {
-        await paymentService.makePayment(
-            selectedTimeSlot.timeSlotId!, userService.getUserId(),
-            selectedTimeSlot.price!,selectedTimeSlot.duration!);
+      if (balance! > price!) {
+        await paymentService.makePayment(selectedTimeSlot.timeSlotId!,
+            userService.getUserId(), price!, duration!);
         EasyLoading.dismiss();
         Get.offNamed('/payment-success', arguments: selectedTimeSlot);
-        notificationService.setNotificationAppointment(selectedTimeSlot.timeSlot!);
-      }
-      else {
+        notificationService
+            .setNotificationAppointment(selectedTimeSlot.timeSlot!);
+      } else {
         Fluttertoast.showToast(msg: 'please charge your balance!');
         Get.to(() => BalanceView());
       }
@@ -66,9 +72,8 @@ class DetailOrderController extends GetxController {
       Fluttertoast.showToast(msg: err.toString());
       return null;
     }
-
   }
-  /*
+/*
   void makePayment() async {
     EasyLoading.show();
     try {

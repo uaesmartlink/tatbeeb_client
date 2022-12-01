@@ -12,9 +12,6 @@ class ChangeLanguagePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     var locale = Get.locale;
-    print('------');
-    print(locale);
-    print('------');
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -10,11 +11,19 @@ enum TimeSlotStatus { startUp, unselected, selected }
 
 class ConsultationDatePickerController extends GetxController
     with StateMixin<List<TimeSlot>> {
-  List<TimeSlot> allTimeSlot = List.empty();
+  List<TimeSlot> allTimeSlot = List.empty(growable: true);
+  List<TimeSlot> tempTimeSlot = List.empty(growable: true);
   late List<TimeSlot> selectedDateTimeslot = List.empty();
   var selectedTimeSlot = TimeSlot().obs;
   Doctor doctor = Get.arguments[0];
   bool isReschedule = false;
+  List<String> durations = [
+    '15 minutes',
+    '30 minutes',
+    '45 minutes',
+    '60 minutes',
+  ];
+  int durationSelectedIndex = 0;
 
   @override
   void onInit() {
@@ -23,10 +32,16 @@ class ConsultationDatePickerController extends GetxController
     //print('is Reschedule $isReschedule');
     DoctorService().getDoctorTimeSlot(doctor).then((timeSlot) {
       allTimeSlot = timeSlot;
+      tempTimeSlot = timeSlot;
       updateScheduleAtDate(
           DateTime.now().day, DateTime.now().month, DateTime.now().year);
     }).onError((error, stackTrace) {
-      change([], status: RxStatus.error(error.toString()));
+      change(
+        [],
+        status: RxStatus.error(
+          error.toString(),
+        ),
+      );
     });
   }
 
@@ -44,6 +59,30 @@ class ConsultationDatePickerController extends GetxController
     change(schedule, status: RxStatus.success());
   }
 
+  void updateList() {
+    allTimeSlot = List.empty(growable: true);
+
+    int slot = durationSelectedIndex;
+    for (int i = 0; i < tempTimeSlot.length - slot; i++) {
+      TimeSlot first = tempTimeSlot[i];
+      TimeSlot last = tempTimeSlot[i + slot];
+      print(first.timeSlot);
+      print(last.timeSlot);
+      int h1 = first.timeSlot!.hour;
+      int h2 = last.timeSlot!.hour;
+      int m1 = first.timeSlot!.minute;
+      int m2 = last.timeSlot!.minute;
+
+      int time1 = h1 * 60 + m1;
+      int time2 = h2 * 60 + m2;
+      if (time2 - time1 <= (slot + 1) * 15) {
+        allTimeSlot.add(first);
+        print(first.timeSlot);
+      }
+    }
+    change(allTimeSlot, status: RxStatus.success());
+  }
+
   void confirm() async {
     try {
       if (isReschedule) {
@@ -57,7 +96,7 @@ class ConsultationDatePickerController extends GetxController
       } else {
         Get.toNamed(
           '/detail-order',
-          arguments: [selectedTimeSlot.value, doctor],
+          arguments: [selectedTimeSlot.value, doctor, (durationSelectedIndex + 1) * 15],
         );
       }
     } catch (e) {

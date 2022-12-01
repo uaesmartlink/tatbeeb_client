@@ -64,6 +64,7 @@ dependencies:
       url: https://github.com/DPLYR-dev/SplashScreenFlutterPackage.git
       ref: master
   flutter_facebook_auth: ^4.4.1+1
+  intl_phone_field: ^3.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

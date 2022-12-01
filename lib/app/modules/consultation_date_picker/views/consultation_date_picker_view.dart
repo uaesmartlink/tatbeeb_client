@@ -15,13 +15,12 @@ class ConsultationDatePickerView
   Widget build(BuildContext context) {
     return Scaffold(
       body: BackgroundContainer(
-        text:'Chose Timeslot'.tr,
+        text: 'Chose Timeslot'.tr,
         widget: Padding(
           padding: const EdgeInsets.only(bottom: 61),
-          child: Column(
-              children: [
+          child: Column(children: [
             Container(
-              margin: const EdgeInsets.only(top: 20,bottom: 20),
+              margin: const EdgeInsets.only(top: 20, bottom: 20),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -31,8 +30,7 @@ class ConsultationDatePickerView
                       color: Colors.black12,
                       blurRadius: 40,
                     )
-                  ]
-              ),
+                  ]),
               child: Column(
                 children: [
                   Container(
@@ -63,6 +61,48 @@ class ConsultationDatePickerView
                 ],
               ),
             ),
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Chose Duration'.tr,
+                    style: titleTextStyle,
+                  ),
+                ),
+                Row(
+                  children: [
+                    ...List.generate(
+                      controller.durations.length,
+                      (index) => InkWell(
+                        splashColor: Colors.cyanAccent,
+                        onTap: () {
+                          controller.durationSelectedIndex = index;
+                          controller.updateList();
+                          controller.update();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          color: index == controller.durationSelectedIndex
+                              ? Color(0xFF1b4170)
+                              : Colors.white,
+                          child: Text(
+                            controller.durations[index],
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: index == controller.durationSelectedIndex
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(20),
@@ -75,8 +115,7 @@ class ConsultationDatePickerView
                         color: Colors.black12,
                         blurRadius: 40,
                       )
-                    ]
-                ),
+                    ]),
                 child: Column(
                   children: [
                     Container(
@@ -91,28 +130,32 @@ class ConsultationDatePickerView
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         child: controller.obx(
-                              (timeSlot) => GridView.builder(
-                            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
-                                childAspectRatio: 3 / 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 20),
+                          (timeSlot) => GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 3 / 2,
+                                    crossAxisSpacing: 20,
+                                    mainAxisSpacing: 20),
                             itemCount: timeSlot!.length,
                             itemBuilder: (BuildContext ctx, index) {
-                              var timeStartFormat = DateFormat.Hm().format(timeSlot[index].timeSlot!);
-                              var timeEnd = timeSlot[index]
-                                  .timeSlot!
-                                  .add(Duration(minutes: timeSlot[index].duration!));
-                              var timeEndFormat = DateFormat.Hm().format(timeEnd);
+                              var timeStartFormat = DateFormat.Hm()
+                                  .format(timeSlot[index].timeSlot!);
+                              var timeEnd = timeSlot[index].timeSlot!.add(
+                                  Duration(minutes: timeSlot[index].duration!));
+                              var timeEndFormat =
+                                  DateFormat.Hm().format(timeEnd);
                               if (timeSlot[index].available!) {
                                 return InkWell(
                                   onTap: () {
-                                    controller.selectedTimeSlot.value = timeSlot[index];
+                                    controller.selectedTimeSlot.value =
+                                        timeSlot[index];
                                   },
                                   child: Obx(
-                                        () => Container(
+                                    () => Container(
                                       alignment: Alignment.center,
                                       child: Text(
                                         '$timeStartFormat - $timeEndFormat${'\n Available'.tr}',
@@ -120,21 +163,24 @@ class ConsultationDatePickerView
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w500
-                                        ),
+                                            fontWeight: FontWeight.w500),
                                       ),
-                                      decoration: (controller.selectedTimeSlot.value ==
-                                          timeSlot[index])
-                                          ? BoxDecoration(
-                                        color: Color(0xFF1b4170),
-                                        border: Border.all(
-                                            color: Color(0xFF76e6da), width: 5),
-                                        borderRadius: BorderRadius.circular(15),
-                                      )
-                                          : BoxDecoration(
-                                        color: Color(0xFF76e6da),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
+                                      decoration:
+                                          (controller.selectedTimeSlot.value ==
+                                                  timeSlot[index])
+                                              ? BoxDecoration(
+                                                  color: Color(0xFF1b4170),
+                                                  border: Border.all(
+                                                      color: Color(0xFF76e6da),
+                                                      width: 5),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                )
+                                              : BoxDecoration(
+                                                  color: Color(0xFF76e6da),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
                                     ),
                                   ),
                                 );
@@ -144,7 +190,8 @@ class ConsultationDatePickerView
                                   child: Text(
                                     '$timeStartFormat - $timeEndFormat${'\n Unavailable'.tr}',
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.nunito(color: Colors.white),
+                                    style:
+                                        GoogleFonts.nunito(color: Colors.white),
                                   ),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[800],
