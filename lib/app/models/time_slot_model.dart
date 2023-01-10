@@ -70,6 +70,21 @@ class TimeSlot {
       this.purchaseTime,
       this.status});
 
+  static const String _timeSlotId = 'timeSlotId';
+  static const String _timeSlot = 'timeSlot';
+  static const String _duration = 'duration';
+  static const String _price = 'price';
+  static const String _bookedDuration = 'bookedDuration';
+  static const String _bookedAmount = 'bookedAmount';
+  static const String _available = 'available';
+  static const String _doctorId = 'doctorId';
+  static const String _bookByWho = 'bookByWho';
+  static const String _purchaseTime = 'purchaseTime';
+  static const String _status = 'status';
+  static const String _pastTimeSlot = 'pastTimeSlot';
+  static const String _repeatTimeSlot = 'repeatTimeSlot';
+  static const String _parentTimeslotId = 'parentTimeslotId';
+
   String? id;
   @JsonKey(name: 'timeSlotId')
   String? timeSlotId;
@@ -113,4 +128,27 @@ class TimeSlot {
 
   static Timestamp _dateTimeToJson(DateTime? dateTime) =>
       Timestamp.fromDate(dateTime!);
+
+  Map<String, dynamic> toMap(TimeSlot timeSlot) {
+    if (timeSlot.timeSlot == null) {
+      return {
+        _duration: timeSlot.duration,
+        _price: timeSlot.price,
+        _bookedDuration: timeSlot.bookedDuration,
+        _bookedAmount: timeSlot.bookedAmount,
+        _available: timeSlot.available,
+        _doctorId: timeSlot.doctorid,
+      };
+    } else {
+      return {
+        _timeSlot: Timestamp.fromDate(timeSlot.timeSlot!),
+        _duration: timeSlot.duration,
+        _price: timeSlot.price,
+        _bookedDuration: timeSlot.bookedDuration,
+        _bookedAmount: timeSlot.bookedAmount,
+        _available: timeSlot.available,
+        _doctorId: timeSlot.doctorid,
+      };
+    }
+  }
 }

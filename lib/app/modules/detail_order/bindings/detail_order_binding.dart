@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/service/payment_service.dart';
+import '../../../service/timeslot_service.dart';
 import '../controllers/detail_order_controller.dart';
 
 class DetailOrderBinding extends Bindings {
@@ -10,6 +11,9 @@ class DetailOrderBinding extends Bindings {
     );
     Get.lazyPut<PaymentService>(
       () => PaymentService(),
+    );
+    Get.lazyPut<TimeSlotService>(
+        () => TimeSlotService(),
     );
   }
 }

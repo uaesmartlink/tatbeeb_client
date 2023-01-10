@@ -9,14 +9,14 @@ class PaymentSuccessController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final count = 0.obs;
   late AnimationController animController;
-  TimeSlot timeSlot = Get.arguments;
-  var price = 0.0.obs;
+  TimeSlot timeSlot = Get.arguments[0];
+  double price = Get.arguments[1];
   @override
   void onInit() {
     super.onInit();
     animController =
         AnimationController(vsync: this, duration: Duration(seconds: 3));
-    price.value = timeSlot.price!;
+    // price.value = timeSlot.price!;
   }
 
   @override

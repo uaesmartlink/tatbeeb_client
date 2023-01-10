@@ -11,7 +11,6 @@ class TimeSlotService {
           .collection('DoctorTimeslot')
           .where('bookByWho.userId', isEqualTo: userId)
           .where('charged', isEqualTo: true)
-
           .get();
       if (documentSnapshot.docs.isEmpty) {
         return [];
@@ -56,13 +55,38 @@ class TimeSlotService {
     }
   }
 
-  Future<void> updateTimeslotAvailable(timeSlotId)async{
-    try{
-      var callable=FirebaseFunctions.instance.httpsCallable('updateTimeslotAvailable');
-      await callable({'timeSlotId':timeSlotId});
-    } on FirebaseFunctionsException catch(e){
+  Future<void> updateTimeslotAvailable(timeSlotId) async {
+    try {
+      var callable =
+          FirebaseFunctions.instance.httpsCallable('updateTimeslotAvailable');
+      await callable({'timeSlotId': timeSlotId});
+    } on FirebaseFunctionsException catch (e) {
       return Future.error(e.message!);
     }
+  }
 
+  Future updateTimeSlot(
+      TimeSlot timeSlot, double bookedAmount, int bookedDuration) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('DoctorTimeslot')
+          .doc(timeSlot.timeSlotId)
+          .update(
+              {'bookedAmount': bookedAmount, 'bookedDuration': bookedDuration});
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future deleteTimeSlot(TimeSlot timeSlot) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('DoctorTimeslot')
+          .doc(timeSlot.timeSlotId)
+          .delete();
+      print('success delete timeslot');
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 }

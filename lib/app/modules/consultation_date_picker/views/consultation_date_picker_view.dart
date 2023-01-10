@@ -55,6 +55,7 @@ class ConsultationDatePickerView
                       onDateChange: (date) {
                         controller.updateScheduleAtDate(
                             date.day, date.month, date.year);
+                        controller.date = date;
                       },
                     ),
                   ),
@@ -71,36 +72,7 @@ class ConsultationDatePickerView
                     style: titleTextStyle,
                   ),
                 ),
-                Row(
-                  children: [
-                    ...List.generate(
-                      controller.durations.length,
-                      (index) => InkWell(
-                        splashColor: Colors.cyanAccent,
-                        onTap: () {
-                          controller.durationSelectedIndex = index;
-                          controller.updateList();
-                          controller.update();
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          color: index == controller.durationSelectedIndex
-                              ? Color(0xFF1b4170)
-                              : Colors.white,
-                          child: Text(
-                            controller.durations[index],
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: index == controller.durationSelectedIndex
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                DurationTest(controller),
               ],
             ),
             Expanded(
@@ -145,7 +117,7 @@ class ConsultationDatePickerView
                               var timeStartFormat = DateFormat.Hm()
                                   .format(timeSlot[index].timeSlot!);
                               var timeEnd = timeSlot[index].timeSlot!.add(
-                                  Duration(minutes: timeSlot[index].duration!));
+                                  Duration(minutes: (controller.durationSelectedIndex + 1) * 15));
                               var timeEndFormat =
                                   DateFormat.Hm().format(timeEnd);
                               if (timeSlot[index].available!) {
@@ -239,4 +211,58 @@ class ConsultationDatePickerView
       bottomNavigationBar: DashboardView(),
     );
   }
+}
+
+class DurationTest extends  StatefulWidget {
+  ConsultationDatePickerController controller;
+
+  DurationTest(this.controller);
+
+  @override
+  State<DurationTest> createState() => _DurationTest(controller);
+}
+
+class _DurationTest extends State<DurationTest>{
+
+
+  @override
+  Widget build(BuildContext context) {
+      return InkWell(
+        child: Row(
+          children: [
+            ...List.generate(
+              controller.durations.length,
+                  (index) => InkWell(
+                splashColor: Colors.cyanAccent,
+                onTap: () {
+                  setState(() {
+                    controller.durationSelectedIndex = index;
+                    controller.updateList();
+                    controller.update();
+
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  color: index == controller.durationSelectedIndex
+                      ? Color(0xFF1b4170)
+                      : Colors.white,
+                  child: Text(
+                    controller.durations[index],
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: index == controller.durationSelectedIndex
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ) ,
+      );
+  }
+   ConsultationDatePickerController controller;
+  _DurationTest(this.controller);
 }

@@ -87,9 +87,6 @@ class DetailOrderView extends GetView<DetailOrderController> {
                           title: 'Test Mode',
                           content: Text(
                             'This is a testing mode, to make a payment in test mode, please enter the number 42 consecutively in the credit card details, E.g. credit card: 424242424244242',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
                           ),
                           textConfirm: 'Make Payment With Stripe',
                           onConfirm: () {

@@ -85,7 +85,6 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                   IntlPhoneField(
                     decoration: InputDecoration(
-                      labelText: 'Phone Number',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
@@ -109,48 +108,76 @@ class RegisterView extends GetView<RegisterController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: Get.width / 2.5,
-                        child: FormBuilderDropdown(
-                          initialValue: controller.gender,
-                          name: 'Gender',
-                          items: dropDownGender,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  )),
-                              fillColor: Colors.grey[200],
-                              filled: true),
-                          onChanged: (gender) {
-                            controller.gender = gender.toString();
-                          },
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                              "Gender",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 16),
+                            ),
+                            padding: EdgeInsets.all(2),
+                          ),
+                          SizedBox(
+                            width: Get.width / 2.5,
+                            child: FormBuilderDropdown(
+                              initialValue: controller.gender,
+                              name: 'Gender',
+                              items: dropDownGender,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        style: BorderStyle.none,
+                                      )),
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (gender) {
+                                controller.gender = gender.toString();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         width: 7,
                       ),
-                      SizedBox(
-                        width: Get.width / 2.5,
-                        child: FormBuilderDropdown(
-                          initialValue: controller.age,
-                          name: 'Age',
-                          items: dropDownAge,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  )),
-                              fillColor: Colors.grey[200],
-                              filled: true),
-                          onChanged: (age) {
-                            controller.age = age.toString();
-                          },
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                              "Age",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 16),
+                            ),
+                            padding: EdgeInsets.all(2),
+                          ),
+                          SizedBox(
+                            width: Get.width / 2.5,
+                            child: FormBuilderDropdown(
+                              initialValue: controller.age,
+                              name: 'Age',
+                              items: dropDownAge,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        style: BorderStyle.none,
+                                      )),
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (age) {
+                                controller.age = age.toString();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -339,7 +366,6 @@ class RegisterView extends GetView<RegisterController> {
                     },
                     title: 'Already have an account ?'.tr,
                     subTitle: 'Login'.tr,
-
                   ),
                 ],
               ),

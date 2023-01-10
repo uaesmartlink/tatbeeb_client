@@ -10,11 +10,12 @@ import '../../../dashboard/views/dashboard_view.dart';
 class EditImagePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
-    final ImagePicker _picker = ImagePicker();
-    XFile? image;
-    File? imageFile;
+
 
     final VoidCallback onPressed = () async {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image;
+      File? imageFile;
       image = await _picker.pickImage(source: ImageSource.gallery);
       if (image == null) return;
       imageFile = File(image!.path);

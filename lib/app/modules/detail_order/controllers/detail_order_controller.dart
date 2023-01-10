@@ -9,6 +9,7 @@ import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 import 'package:hallo_doctor_client/app/service/notification_service.dart';
 import 'package:hallo_doctor_client/app/service/payment_service.dart';
 import 'package:hallo_doctor_client/app/service/user_service.dart';
+import 'package:hallo_doctor_client/app/service/timeslot_service.dart';
 import 'package:hallo_doctor_client/app/utils/constants/constants.dart';
 import 'package:intl/intl.dart';
 import '../../balance/views/balance_view.dart';
@@ -16,10 +17,12 @@ import '../../balance/views/balance_view.dart';
 class DetailOrderController extends GetxController {
   final username = ''.obs;
   final UserService userService = Get.find();
+  final TimeSlotService timeSlotService = Get.find();
   List<OrderDetailModel> orderDetail = List.empty();
   TimeSlot selectedTimeSlot = Get.arguments[0];
   Doctor doctor = Get.arguments[1];
   int duration = Get.arguments[2];
+  List<TimeSlot> timeSlots = Get.arguments[3];
   PaymentService paymentService = Get.find();
   NotificationService notificationService = Get.find<NotificationService>();
   late String clientSecret;
@@ -60,12 +63,19 @@ class DetailOrderController extends GetxController {
       if (balance! > price!) {
         await paymentService.makePayment(selectedTimeSlot.timeSlotId!,
             userService.getUserId(), price!, duration!);
+        print('#####');
+        print(timeSlots.length);
+        for(int i = 0 ; i < timeSlots.length ; i++){
+          print(timeSlots[i].timeSlot);
+          await timeSlotService.deleteTimeSlot(timeSlots[i]);
+        }
         EasyLoading.dismiss();
-        Get.offNamed('/payment-success', arguments: selectedTimeSlot);
+        Get.offNamed('/payment-success', arguments: [selectedTimeSlot, price]);
         notificationService
             .setNotificationAppointment(selectedTimeSlot.timeSlot!);
       } else {
         Fluttertoast.showToast(msg: 'please charge your balance!');
+        EasyLoading.dismiss();
         Get.to(() => BalanceView());
       }
     } catch (err) {

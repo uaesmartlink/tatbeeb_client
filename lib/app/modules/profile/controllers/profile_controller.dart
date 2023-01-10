@@ -11,6 +11,8 @@ import 'package:hallo_doctor_client/app/modules/profile/views/pages/edit_image_p
 import 'package:hallo_doctor_client/app/modules/profile/views/pages/update_email_page.dart';
 import 'package:hallo_doctor_client/app/service/auth_service.dart';
 import 'package:hallo_doctor_client/app/service/user_service.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
@@ -62,8 +64,20 @@ class ProfileController extends GetxController {
     Get.to(() => ProfileInfo());
   }
 
-  toEditImage() {
-    Get.to(() => EditImagePage());
+  toEditImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image;
+    File? imageFile;
+    image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    imageFile = File(image!.path);
+    var imageCropped = await ImageCropper().cropImage(
+        sourcePath: image!.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatioPresets: [CropAspectRatioPreset.square]);
+    if (imageCropped == null) return;
+    imageFile = File(imageCropped.path);
+    updateProfilePic(imageFile!);
   }
 
   toUpdateEmail() {
@@ -82,7 +96,6 @@ class ProfileController extends GetxController {
     EasyLoading.show(maskType: EasyLoadingMaskType.black);
     userService.updateProfilePic(filePath).then((updatedUrl) {
       profilePic.value = updatedUrl;
-      Get.back();
     }).catchError((error) {
       Fluttertoast.showToast(
           msg: error.toString(), toastLength: Toast.LENGTH_LONG);

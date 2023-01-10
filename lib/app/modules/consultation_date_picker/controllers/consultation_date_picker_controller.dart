@@ -17,17 +17,21 @@ class ConsultationDatePickerController extends GetxController
   var selectedTimeSlot = TimeSlot().obs;
   Doctor doctor = Get.arguments[0];
   bool isReschedule = false;
-  List<String> durations = [
-    '15 minutes',
-    '30 minutes',
-    '45 minutes',
-    '60 minutes',
-  ];
+  late int price;
+  DateTime date = DateTime.now();
+  List<TimeSlot> schedule = List.empty(growable: true);
+  List<String> durations = List.empty(growable: true);
   int durationSelectedIndex = 0;
 
   @override
   void onInit() {
     super.onInit();
+    price = doctor.doctorPrice!;
+    durations.add('10 minutes\n       \$${price / 4}');
+    durations.add('30 minutes\n       \$${price / 2}');
+    durations.add('45 minutes\n       \$${price / 4 * 3}');
+    durations.add('60 minutes\n       \$${price}');
+    print(price);
     if (Get.arguments[1] != null) isReschedule = true;
     //print('is Reschedule $isReschedule');
     DoctorService().getDoctorTimeSlot(doctor).then((timeSlot) {
@@ -49,7 +53,7 @@ class ConsultationDatePickerController extends GetxController
   void onClose() {}
 
   void updateScheduleAtDate(int date, int month, int year) {
-    var schedule = allTimeSlot
+     schedule = allTimeSlot
         .where((timeSlot) =>
             timeSlot.timeSlot!.day.isEqual(date) &&
             timeSlot.timeSlot!.month.isEqual(month) &&
@@ -66,8 +70,7 @@ class ConsultationDatePickerController extends GetxController
     for (int i = 0; i < tempTimeSlot.length - slot; i++) {
       TimeSlot first = tempTimeSlot[i];
       TimeSlot last = tempTimeSlot[i + slot];
-      print(first.timeSlot);
-      print(last.timeSlot);
+
       int h1 = first.timeSlot!.hour;
       int h2 = last.timeSlot!.hour;
       int m1 = first.timeSlot!.minute;
@@ -75,12 +78,13 @@ class ConsultationDatePickerController extends GetxController
 
       int time1 = h1 * 60 + m1;
       int time2 = h2 * 60 + m2;
-      if (time2 - time1 <= (slot + 1) * 15) {
+      if (time2 - time1 <= (slot + 1) * 15 &&
+          first.timeSlot?.day == last.timeSlot?.day!) {
         allTimeSlot.add(first);
-        print(first.timeSlot);
       }
     }
-    change(allTimeSlot, status: RxStatus.success());
+    updateScheduleAtDate(date.day, date.month, date.year);
+    //change(allTimeSlot, status: RxStatus.success());
   }
 
   void confirm() async {
@@ -94,9 +98,24 @@ class ConsultationDatePickerController extends GetxController
         EasyLoading.dismiss();
         Get.back();
       } else {
+        int index = 0;
+        for(index = 0 ; index < schedule.length ; index++){
+          if(schedule[index].timeSlotId == selectedTimeSlot.value.timeSlotId)
+            break;
+        }
+        List<TimeSlot> timesSlot = List.empty(growable: true);
+        for(int i = index + 1 ; i <= index + durationSelectedIndex ; i++){
+            timesSlot.add(schedule[i]);
+            print(schedule[i].timeSlot);
+        }
         Get.toNamed(
           '/detail-order',
-          arguments: [selectedTimeSlot.value, doctor, (durationSelectedIndex + 1) * 15],
+          arguments: [
+            selectedTimeSlot.value,
+            doctor,
+            (durationSelectedIndex + 1) * 15,
+            timesSlot,
+          ],
         );
       }
     } catch (e) {
