@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/service/payment_service.dart';
 import '../../../service/timeslot_service.dart';
 import '../controllers/detail_order_controller.dart';
+import '../../balance/controllers/balance_controller.dart';
 
 class DetailOrderBinding extends Bindings {
   @override
@@ -13,7 +14,10 @@ class DetailOrderBinding extends Bindings {
       () => PaymentService(),
     );
     Get.lazyPut<TimeSlotService>(
-        () => TimeSlotService(),
+      () => TimeSlotService(),
+    );
+    Get.lazyPut<BalanceController>(
+      () => BalanceController(),
     );
   }
 }

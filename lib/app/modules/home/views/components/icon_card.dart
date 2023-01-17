@@ -43,8 +43,8 @@ class IconCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 3,
+                        color: Colors.black12,
+                        blurRadius: 40,
                       ),
                     ]),
                 child: Column(
@@ -93,8 +93,8 @@ class IconCard extends StatelessWidget {
                   size: 45,
                   shadows: [
                     BoxShadow(
-                      color: Colors.black54,
-                      blurRadius:3,
+                      color: Colors.black12,
+                      blurRadius: 40,
                     ),
                   ],
                   color: Colors.white,

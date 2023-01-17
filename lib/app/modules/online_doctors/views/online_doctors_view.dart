@@ -60,22 +60,22 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
             padding: EdgeInsets.all(20),
             child: SizedBox(
               height: 300,
-              child: Obx(()=>
+              child:
                 Column(
                     children: [
-                      Text(
+                    /*  Text(
                         'Choose a duration for consulting '.tr,
                         style: TextStyle(
                           fontSize:17
                         ),
-                      ),
+                      ),*/
                       Text('Doctor is available until $timeAvailableFormat'.tr,
                          style: TextStyle(
                            color: Color(0xFF0faa9a)
                          ),
                       ),
                       SizedBox(height:30,),
-                        Row(
+                      /*  Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                               CustomButton(
@@ -113,7 +113,7 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
                               ),
                           ],
                         ),
-                      SizedBox(height: 25,),
+                      SizedBox(height: 25,),*/
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -150,7 +150,6 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
                     ],
                   ),
               ),
-            ),
           );
         }
     );

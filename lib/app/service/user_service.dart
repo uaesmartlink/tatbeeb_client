@@ -94,7 +94,17 @@ class UserService {
       return Future.error(e.toString());
     }
   }
-
+  Future updateUserBalance(String userId, double amount) async{
+      try {
+        double? balance = await getUserBalance(userId);
+        FirebaseFirestore.instance
+            .collection('Users')
+            .doc(currentUser!.uid)
+            .update({'balance': (balance! + amount)});
+      } catch (e) {
+        Future.error(e.toString());
+      }
+  }
   Future<UserModel?> getUsernameById(String userId) async {
     try {
       var user = await FirebaseFirestore.instance

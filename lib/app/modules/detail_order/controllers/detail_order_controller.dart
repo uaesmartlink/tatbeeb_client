@@ -36,7 +36,6 @@ class DetailOrderController extends GetxController {
     });
     price = selectedTimeSlot.price!;
     price = duration / 15 * price;
-
   }
 
   @override
@@ -60,12 +59,15 @@ class DetailOrderController extends GetxController {
     try {
       String? userId = userService.currentUser!.uid;
       double? balance = await userService.getUserBalance(userId);
-      if (balance! > price!) {
+     /* print(balance);
+      balance = 0;
+      print(balance);*/
+      if (balance! >= price!) {
         await paymentService.makePayment(selectedTimeSlot.timeSlotId!,
             userService.getUserId(), price!, duration!);
         print('#####');
         print(timeSlots.length);
-        for(int i = 0 ; i < timeSlots.length ; i++){
+        for (int i = 0; i < timeSlots.length; i++) {
           print(timeSlots[i].timeSlot);
           await timeSlotService.deleteTimeSlot(timeSlots[i]);
         }

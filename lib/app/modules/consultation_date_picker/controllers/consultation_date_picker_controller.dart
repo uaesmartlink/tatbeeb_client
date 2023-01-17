@@ -27,7 +27,7 @@ class ConsultationDatePickerController extends GetxController
   void onInit() {
     super.onInit();
     price = doctor.doctorPrice!;
-    durations.add('10 minutes\n       \$${price / 4}');
+    durations.add('15 minutes\n       \$${price / 4}');
     durations.add('30 minutes\n       \$${price / 2}');
     durations.add('45 minutes\n       \$${price / 4 * 3}');
     durations.add('60 minutes\n       \$${price}');

@@ -9,130 +9,146 @@ import 'package:intl/intl.dart';
 
 class OnlineDoctorsController extends GetxController
     with StateMixin<List<Doctor>> {
+  List<Doctor> allDoctor = [];
+  List<TimeSlot> timeSlotOfDoctors = [];
+  List<String> names = [];
 
-  List<Doctor> allDoctor =[];
-  List<TimeSlot> timeSlotOfDoctors=[];
   //List<TimeSlot> allTimeSlot = [];
-  var selectedBottomSheetButton=3.obs ;
-  double? price=0.0;
-  int? duration=0;
+  var selectedBottomSheetButton = 3.obs;
 
+  double? price = 2.5;
+  int? duration = 0;
 
   @override
-  void onInit() async{
+  void onInit() async {
     super.onInit();
     getDoctorOnline();
   }
 
+  Future<void> getDoctorOnline() async {
+    List<Doctor> allDoctorNow = [];
+    List<TimeSlot> timeSlotOfDoctorsNow = [];
+    int cnt = 0;
+    DoctorService().getAllDoctorTimeSlotNow().then((timeSlot) {
+      for (int i = 0; i < timeSlot.length; i++) {
+        var timeSlotFormat = DateFormat.yMd().format(timeSlot[i].timeSlot!);
+        var hourSlotFormat = DateFormat.H().format(timeSlot[i].timeSlot!);
+        var minutesSlotFormat =
+            int.parse(DateFormat.m().format(timeSlot[i].timeSlot!));
+        var minuteSlotFormat = timeSlot[i].duration! + minutesSlotFormat;
 
-  Future<void> getDoctorOnline()async{
-    List<Doctor> allDoctorNow =[];
-    List<TimeSlot> timeSlotOfDoctorsNow=[];
-      DoctorService().getAllDoctorTimeSlotNow().then((timeSlot) {
-
-        for (int i = 0; i < timeSlot.length; i++) {
-
-          var timeSlotFormat = DateFormat.yMd().format(timeSlot[i].timeSlot!);
-          var hourSlotFormat = DateFormat.H().format(timeSlot[i].timeSlot!);
-          var minutesSlotFormat = int.parse(
-              DateFormat.m().format(timeSlot[i].timeSlot!));
-          var minuteSlotFormat = timeSlot[i].duration! + minutesSlotFormat;
-
-          if (minutesSlotFormat > 59) {
-            minutesSlotFormat = minutesSlotFormat - 60;
-            hourSlotFormat = (int.parse(hourSlotFormat) + 1).toString();
-          }
-          var timeNowFormat = DateFormat.yMd().format(DateTime.now());
-          var hourNowFormat = DateFormat.H().format(DateTime.now());
-          var minuteNowFormat = int.parse(
-              DateFormat.m().format(DateTime.now()));
-
-          if (timeNowFormat == timeSlotFormat &&
-              hourNowFormat == hourSlotFormat &&
-              minuteNowFormat < minuteSlotFormat) {
-            timeSlotOfDoctorsNow.add(timeSlot[i]);
-
-            DoctorService().getDoctorDetail(timeSlot[i].doctorid!).then((
-                doctor) {
-              allDoctorNow.add(doctor);
-              change(allDoctorNow, status: RxStatus.success());
-            });
-          }
+        if (minutesSlotFormat > 59) {
+          minutesSlotFormat = minutesSlotFormat - 60;
+          hourSlotFormat = (int.parse(hourSlotFormat) + 1).toString();
         }
-        change([], status: RxStatus.empty());
-      }).onError((error, stackTrace) {
-        change([], status: RxStatus.error(error.toString()));
-      });
-      allDoctor=allDoctorNow;
-      timeSlotOfDoctors=timeSlotOfDoctorsNow;
+        var timeNowFormat = DateFormat.yMd().format(DateTime.now());
+        var hourNowFormat = DateFormat.H().format(DateTime.now());
+        var minuteNowFormat = int.parse(DateFormat.m().format(DateTime.now()));
+
+        if (timeNowFormat == timeSlotFormat &&
+            hourNowFormat == hourSlotFormat &&
+            minuteNowFormat < minuteSlotFormat) {
+          timeSlotOfDoctorsNow.add(timeSlot[i]);
+
+          DoctorService().getDoctorDetail(timeSlot[i].doctorid!).then((doctor) {
+            // names.add(doctor.doctorName!);
+
+            allDoctorNow.forEach((element) {
+              if (element.doctorName == doctor.doctorName) return;
+              allDoctorNow.add(doctor);
+            });
+            if (allDoctor.isEmpty) {
+              allDoctorNow.add(doctor);
+            }
+            /* print(doctor.doctorName);
+            if (names.contains(doctor.doctorName)) {
+              names.add(doctor.doctorName!);
+              allDoctorNow.add(doctor);
+            }*/
+            change(allDoctorNow, status: RxStatus.success());
+          });
+        }
+      }
+      change([], status: RxStatus.empty());
+    }).onError((error, stackTrace) {
+      change([], status: RxStatus.error(error.toString()));
+    });
+    allDoctor = allDoctorNow;
+    timeSlotOfDoctors = timeSlotOfDoctorsNow;
   }
 
-  calculatePrice(selectedDuration,timeslot,timeslotDuration,timeslotPrice){
-   bool acceptDuration=calculateTime(selectedDuration, timeslot, timeslotDuration);
-   if(acceptDuration) {
-     switch (selectedDuration) {
-       case(15):
-         {
-           switch (timeslotDuration) {
-             case(15):
-               {
-                 return price = timeslotPrice;
-               }
-             case(30):
-               {
-                 return price = NumberFormatted().formatNumber(timeslotPrice / 2);
-               }
-             case(45):
-               {
-                 return price = NumberFormatted().formatNumber(timeslotPrice / 3);
-               }
-             case(60):
-               {
-                 return price = NumberFormatted().formatNumber(timeslotPrice / 4);
-               }
-           }
-           break;
-         }
-       case(30):
-         {
-           switch (timeslotDuration) {
-             case(30):
-               {
-                 return price = timeslotPrice ;
-               }
-             case(45):
-               {
-                 return price = NumberFormatted().formatNumber(timeslotPrice / 1.5);
-               }
-             case(60):
-               {
-                 return price = NumberFormatted().formatNumber(timeslotPrice / 2);
-               }
-           }
-           break;
-         }
-       case(45):
-         {
-           switch (timeslotDuration) {
-             case(45):
-               {
-                 return price = timeslotPrice ;
-               }
-             case(60):
-               {
-                 return price = NumberFormatted().formatNumber(timeslotPrice / 1.25);
-               }
-           }
-           break;
-         }
-     }
-   }else{
-     Fluttertoast.showToast(msg: 'You cant book this duration,not enough time'.tr);
-   }
+  calculatePrice(selectedDuration, timeslot, timeslotDuration, timeslotPrice) {
+    return 2.5;
+    // bool acceptDuration=calculateTime(selectedDuration, timeslot, timeslotDuration);
+    // if(acceptDuration) {
+    //   switch (selectedDuration) {
+    //     case(15):
+    //       {
+    //         switch (timeslotDuration) {
+    //           case(15):
+    //             {
+    //               return price = timeslotPrice;
+    //             }
+    //           case(30):
+    //             {
+    //               return price = NumberFormatted().formatNumber(timeslotPrice / 2);
+    //             }
+    //           case(45):
+    //             {
+    //               return price = NumberFormatted().formatNumber(timeslotPrice / 3);
+    //             }
+    //           case(60):
+    //             {
+    //               return price = NumberFormatted().formatNumber(timeslotPrice / 4);
+    //             }
+    //         }
+    //         break;
+    //       }
+    //     case(30):
+    //       {
+    //         switch (timeslotDuration) {
+    //           case(30):
+    //             {
+    //               return price = timeslotPrice ;
+    //             }
+    //           case(45):
+    //             {
+    //               return price = NumberFormatted().formatNumber(timeslotPrice / 1.5);
+    //             }
+    //           case(60):
+    //             {
+    //               return price = NumberFormatted().formatNumber(timeslotPrice / 2);
+    //             }
+    //         }
+    //         break;
+    //       }
+    //     case(45):
+    //       {
+    //         switch (timeslotDuration) {
+    //           case(45):
+    //             {
+    //               return price = timeslotPrice ;
+    //             }
+    //           case(60):
+    //             {
+    //               return price = NumberFormatted().formatNumber(timeslotPrice / 1.25);
+    //             }
+    //         }
+    //         break;
+    //       }
+    //   }
+    // }else{
+    //   Fluttertoast.showToast(msg: 'You cant book this duration,not enough time'.tr);
+    // }
   }
 
-  calculateTime(selectedDuration,timeslot,timeslotDuration,){
-    var minuteNowFormat = int.parse(
+  calculateTime(
+    selectedDuration,
+    timeslot,
+    timeslotDuration,
+  ) {
+    return 0;
+    /* var minuteNowFormat = int.parse(
         DateFormat.m().format(DateTime.now()));
     var minuteSelected = minuteNowFormat + selectedDuration;
     var minutesSlotFormat = int.parse(
@@ -160,26 +176,33 @@ class OnlineDoctorsController extends GetxController
       } else {
         return false;
       }
-    }
+    }*/
   }
 
-  onTap(int selected,price,duration,timeslot,timeslotDuration,){
-    if(price!=0) {
-        timeSlotOfDoctors[selected].price = price;
-        timeSlotOfDoctors[selected].duration = duration;
-        Get.toNamed(
-          '/detail-order',
-          arguments: [timeSlotOfDoctors[selected], allDoctor[selected]],
-        );
-    }
-    else{
+  onTap(
+    int selected,
+    price,
+    duration,
+    timeslot,
+    timeslotDuration,
+  ) {
+    if (price != 0) {
+      timeSlotOfDoctors[selected].price = price;
+      timeSlotOfDoctors[selected].duration = duration;
+      Get.toNamed(
+        '/detail-order',
+        arguments: [
+          timeSlotOfDoctors[selected],
+          allDoctor[selected],
+          15,
+          timeSlotOfDoctors
+        ],
+      );
+    } else {
       Fluttertoast.showToast(msg: 'please chose duration'.tr);
     }
   }
 
   @override
   void onClose() {}
-
 }
-
-

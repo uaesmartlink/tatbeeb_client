@@ -1,4 +1,4 @@
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+// import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/models/doctor_model.dart';
@@ -34,7 +34,7 @@ class DetailDoctorController extends GetxController with StateMixin<Doctor> {
         id: doctorUserId,
         displayName: selectedDoctor.doctorName,
         imageUrl: selectedDoctor.doctorPicture);
-    final room = await FirebaseChatCore.instance.createRoom(otherUser);
-    Get.toNamed('/chat', arguments: [room, selectedDoctor]);
+ /*   final room = await FirebaseChatCore.instance.createRoom(otherUser);
+    Get.toNamed('/chat', arguments: [room, selectedDoctor]);*/
   }
 }

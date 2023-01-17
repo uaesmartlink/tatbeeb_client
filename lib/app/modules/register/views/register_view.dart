@@ -116,7 +116,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: Text(
                               "Gender",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 16),
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
                             padding: EdgeInsets.all(2),
                           ),
@@ -153,7 +153,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: Text(
                               "Age",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 16),
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
                             padding: EdgeInsets.all(2),
                           ),

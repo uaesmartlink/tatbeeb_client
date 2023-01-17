@@ -24,7 +24,7 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: MyNavegateBar(),
+        child: MyNavegateBar(this.controller),
         onWillPop: () async {
           String? routeName = ModalRoute.of(context)?.settings.name;
           if (routeName == "/appointment" ||
@@ -79,7 +79,9 @@ class DashboardView extends GetView<DashboardController> {
   }
 }
 
-class MyNavegateBar extends GetView<DashboardController> {
+class MyNavegateBar extends StatelessWidget{
+  DashboardController controller;
+  MyNavegateBar(this.controller);
   @override
   Widget build(BuildContext context) {
 

@@ -23,13 +23,13 @@ class ReviewController extends GetxController {
 
   @override
   void onClose() {}
-  void saveReiew() async {
+  void saveReview() async {
     EasyLoading.show(maskType: EasyLoadingMaskType.black);
     var user = UserService().currentUser;
     try {
-      await ReviewService().saveReview(textEditingReviewController.text,
+      await ReviewService().saveReview('',
           rating.value.toInt(), timeSlot, user!);
-      Get.back();
+      Get.toNamed("/home");
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     } finally {

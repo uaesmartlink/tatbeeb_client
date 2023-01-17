@@ -6,7 +6,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 import 'package:hallo_doctor_client/app/service/timeslot_service.dart';
@@ -14,11 +13,15 @@ import 'package:hallo_doctor_client/app/utils/styles/styles.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:uuid/uuid.dart';
+import 'package:hallo_doctor_client/app/service/videocall_service.dart';
+import 'package:hallo_doctor_client/app/utils/environment.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     "high_important_channel", "High Importance Notifications",
     description: 'this channel is used for important notification',
-    importance: Importance.high,
+    importance: Importance.max,
     playSound: true);
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -26,6 +29,59 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> _firebaseMessaggingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('a big message just show up ${message.messageId!}');
+  print(message.data['type']);
+  print("---------");
+  print(message.data);
+  print("---------");
+  print(message);
+  print("---------");
+  var _uuid = Uuid();
+  var params = <String, dynamic>{
+    'id': _uuid.v4(),
+    'nameCaller': message.data['fromName'],
+    'appName': 'Tatbeeb',
+    'avatar': '',
+    'handle': '',
+    'type': 1,
+    'textAccept': 'Accept',
+    'textDecline': 'Decline',
+    'textMissedCall': 'Missed call',
+    'textCallback': 'Call back',
+    'duration': 30000,
+    'extra': <String, dynamic>{
+      'roomName': message.data['roomName'],
+      'token': message.data['token'],
+      'selectedTimeslotId': message.data['timeSlotId'],
+    },
+    'headers': <String, dynamic>{},
+    'android': <String, dynamic>{
+      'isCustomNotification': false,
+      'isShowLogo': true,
+      'isShowMissedCallNotification': true,
+      'isShowCallback': false,
+      'ringtonePath': 'system_ringtone_default',
+      'backgroundColor': '#0955fa',
+      'backgroundUrl': 'https://i.pravatar.cc/500',
+      'actionColor': '#4CAF50'
+    },
+    'ios': <String, dynamic>{
+      'iconName': 'CallKitLogo',
+      'handleType': 'generic',
+      'supportsVideo': true,
+      'maximumCallGroups': 2,
+      'maximumCallsPerCallGroup': 1,
+      'audioSessionMode': 'videoChat',
+      'audioSessionActive': true,
+      'audioSessionPreferredSampleRate': 44100.0,
+      'audioSessionPreferredIOBufferDuration': 0.005,
+      'supportsDTMF': true,
+      'supportsHolding': true,
+      'supportsGrouping': false,
+      'supportsUngrouping': false,
+      'ringtonePath': 'system_ringtone_default'
+    }
+  };
+  await FlutterCallkitIncoming.showCallkitIncoming(params);
 }
 
 class NotificationService {
@@ -38,6 +94,7 @@ class NotificationService {
     setupTimezone();
     setupNotificationAction();
   }
+
   void setupFlutterNotification() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -45,7 +102,10 @@ class NotificationService {
         ?.createNotificationChannel(channel);
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-            alert: true, badge: true, sound: true);
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   void showNotification() {
@@ -54,11 +114,14 @@ class NotificationService {
       "testing",
       "How you doing",
       NotificationDetails(
-        android: AndroidNotificationDetails(channel.id, channel.name,
-            channelDescription: channel.description,
-            importance: Importance.high,
-            color: Styles.primaryBlueColor,
-            icon: '@mipmap/ic_launcher'),
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          importance: Importance.high,
+          color: Styles.primaryBlueColor,
+          icon: '@mipmap/ic_launcher',
+        ),
       ),
     );
   }
@@ -68,7 +131,6 @@ class NotificationService {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        print('masuk notifikasinya');
         if (message.data['type'] == 'call') {
           await showCallNotification(
               message.data['fromName'],
@@ -89,7 +151,7 @@ class NotificationService {
         }
       }
     });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    /* FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('a new message opened app are was published');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -98,7 +160,7 @@ class NotificationService {
             title: notification.title!,
             content: Text(notification.body ?? 'body empty'));
       }
-    });
+    });*/
   }
 
   void setupTimezone() async {
@@ -111,6 +173,9 @@ class NotificationService {
 
   void setupNotificationAction() async {
     FlutterCallkitIncoming.onEvent.listen((event) async {
+      print("-----");
+      print(event);
+      print("-----");
       switch (event!.name) {
         case CallEvent.ACTION_CALL_INCOMING:
           print('incoming call gaes');
@@ -119,7 +184,11 @@ class NotificationService {
           print('body ' + event.body['extra']['roomName']);
           print('accept the data');
           TimeSlot selectedTimeslot = await TimeSlotService()
-              .getTimeSlotById(event.body['extra']['selectedTimeslotId']);
+              .getTimeSlotById(event.body['extra']['roomName']);
+          print("SSSSSSSSSs");
+          print(event.body['extra']['roomName']);
+          print(selectedTimeslot.timeSlotId);
+          print("SSSSSSSSSs");
           Get.toNamed('/video-call', arguments: [
             {
               'timeSlot': selectedTimeslot,
@@ -130,6 +199,7 @@ class NotificationService {
           break;
         case CallEvent.ACTION_CALL_DECLINE:
           print('declien call gaes');
+          await VideoCallService().removeRoom(event.body['extra']['roomName']);
           break;
       }
     });
@@ -141,10 +211,11 @@ class NotificationService {
 
   Future showCallNotification(String fromName, String roomName, String token,
       String selectectedTimeslotId) async {
+    var _uuid = Uuid();
     var params = <String, dynamic>{
-      'id': 'adsfadfds',
+      'id': _uuid.v4(),
       'nameCaller': fromName,
-      'appName': 'Moneyvizer',
+      'appName': 'Tatbeeb',
       'avatar': '',
       'handle': '',
       'type': 1,
@@ -156,16 +227,16 @@ class NotificationService {
       'extra': <String, dynamic>{
         'roomName': roomName,
         'token': token,
-        'selectedTimeslotId': selectectedTimeslotId
+        'selectedTimeslotId': selectectedTimeslotId,
       },
-      'headers': <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
+      'headers': <String, dynamic>{},
       'android': <String, dynamic>{
-        'isCustomNotification': true,
-        'isShowLogo': false,
+        'isCustomNotification': false,
+        'isShowLogo': true,
+        'isShowMissedCallNotification': true,
         'isShowCallback': false,
         'ringtonePath': 'system_ringtone_default',
         'backgroundColor': '#0955fa',
-        'backgroundUrl': 'https://i.pravatar.cc/500',
         'actionColor': '#4CAF50'
       },
       'ios': <String, dynamic>{
@@ -174,7 +245,7 @@ class NotificationService {
         'supportsVideo': true,
         'maximumCallGroups': 2,
         'maximumCallsPerCallGroup': 1,
-        'audioSessionMode': 'default',
+        'audioSessionMode': 'videoChat',
         'audioSessionActive': true,
         'audioSessionPreferredSampleRate': 44100.0,
         'audioSessionPreferredIOBufferDuration': 0.005,
@@ -208,11 +279,24 @@ class NotificationService {
     }
   }
 
+  Future testVideoNotification() async {
+    try {
+      await showCallNotification(
+          "TestCall", "0123456789", "012345678", "123456789");
+      //var clientSecret = results.data;
+      print('test call video : ');
+      //return clientSecret;
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
+
   //set local notification before appoinment time
   setNotificationAppointment(DateTime time) {
     var notificationDate = Jiffy(time).subtract(minutes: 10).dateTime;
     printInfo(
-        info: 'Date time sebelum TZ Date (dikurang 10 menit): $notificationDate');
+        info:
+            'Date time sebelum TZ Date (dikurang 10 menit): $notificationDate');
     var myTzDatetime = tz.TZDateTime.local(
       notificationDate.year,
       notificationDate.month,

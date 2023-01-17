@@ -8,7 +8,8 @@ import 'package:hallo_doctor_client/app/service/problem_service.dart';
 import 'package:hallo_doctor_client/app/service/timeslot_service.dart';
 
 class ConsultationConfirmController extends GetxController {
-  TimeSlot timeSlot = Get.arguments;
+  TimeSlot timeSlot = Get.arguments[0];
+  String timeSlotId = Get.arguments[1];
   var problemVisible = false.obs;
 
   @override
@@ -31,11 +32,16 @@ class ConsultationConfirmController extends GetxController {
   confirmConsultation() async {
     try {
       EasyLoading.show();
-      await TimeSlotService().updateTimeslotAvailable(timeSlot.timeSlotId);
-      await OrderService().confirmOrder(timeSlot);
+      print("#####");
+      print(timeSlotId);
+      await TimeSlotService().updateTimeslotAvailable(timeSlotId);
+      print("****");
+      await OrderService().confirmOrder(timeSlot,timeSlotId);
+      print("----");
       EasyLoading.dismiss();
       Get.offNamedUntil('/review', ModalRoute.withName('/appointment-detail'),
           arguments: timeSlot);
+      print("++++");
     } catch (e) {
       EasyLoading.dismiss();
       Fluttertoast.showToast(msg: e.toString());

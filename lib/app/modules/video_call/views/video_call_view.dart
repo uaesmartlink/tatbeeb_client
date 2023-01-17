@@ -38,8 +38,8 @@ class VideoCallView extends GetView<VideoCallController> {
                         FloatingActionButton(
                           onPressed: controller.toggleLocalAudioMuted,
                           child: controller.localAudioMute == false
-                              ? Icon(Icons.mic_off)
-                              : Icon(Icons.mic),
+                              ? Icon(Icons.mic)
+                              : Icon(Icons.mic_off),
                           heroTag: 'micOff',
                         ),
                         SizedBox(
@@ -48,8 +48,8 @@ class VideoCallView extends GetView<VideoCallController> {
                         FloatingActionButton(
                           onPressed: controller.toggleLocalCamOff,
                           child: controller.localCamOff == false
-                              ? Icon(Icons.videocam_off)
-                              : Icon(Icons.videocam),
+                              ? Icon(Icons.videocam)
+                              : Icon(Icons.videocam_off),
                           heroTag: 'camOff',
                         ),
                         SizedBox(

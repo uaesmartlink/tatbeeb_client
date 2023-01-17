@@ -65,20 +65,23 @@ class HomeView extends GetView<HomeController> {
                           iconData: Icons.event_note,
                           text: 'Book Appointment'.tr,
                           // text1: 'Book your appointment now'.tr,
-                          color1: Color(0xFFa80000),
-                          color2: Color(0xFFa80000),
-                          onTap: () {
-                            controller.toDoctorCategory();
-                          },
-                        ),
-                        IconCard(
-                          iconData: Icons.videocam,
-                          text: 'Quick consultation'.tr,
-                          //   text1: 'Consultation with a specialist'.tr,
                           color1: Color(0xFF76e6da),
                           color2: Color(0xFF1b4170),
                           onTap: () {
+                            controller.toDoctorCategory();
+                            // controller.testNotify();
+                          },
+                        ),
+                        IconCard(
+                          iconData: Icons.local_hospital_outlined,
+                          text: 'Quick Consultation'.tr,
+                          //   text1: 'Consultation with a specialist'.tr,
+                          color1: Color(0xFFa80000),
+                          color2: Color(0xFFa80000),
+
+                          onTap: () {
                             controller.toOnlineDoctors();
+                            // controller.testViedoNotify();
                           },
                         ),
                       ],

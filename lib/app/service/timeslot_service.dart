@@ -35,6 +35,9 @@ class TimeSlotService {
           .get();
 
       TimeSlot timeslot = TimeSlot.fromFirestore(timeslotRef);
+      print("MMM");
+      timeslot.timeSlotId = timeslotId;
+      print("MMM");
       return timeslot;
     } catch (e) {
       return Future.error(e);

@@ -33,7 +33,7 @@ class ReviewView extends GetView<ReviewController> {
                     ),
                     title: Text(controller.timeSlot.doctor!.doctorName!),
                   ),
-                  Divider(),
+                 /* Divider(),
                   TextField(
                     controller: controller.textEditingReviewController,
                     decoration: InputDecoration(
@@ -42,7 +42,7 @@ class ReviewView extends GetView<ReviewController> {
                     maxLines: 10,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (value) => controller.review = value,
-                  ),
+                  ),*/
                   Divider(),
                   Obx(() => RatingBar.builder(
                         initialRating: controller.rating.value,
@@ -65,7 +65,7 @@ class ReviewView extends GetView<ReviewController> {
                   ),
                   submitButton(
                       onTap: () {
-                        controller.saveReiew();
+                        controller.saveReview();
                       },
                       text: "Send".tr)
                 ],

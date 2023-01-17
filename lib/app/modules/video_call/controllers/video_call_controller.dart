@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 import 'package:hallo_doctor_client/app/service/videocall_service.dart';
 import 'package:hallo_doctor_client/app/utils/environment.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class VideoCallController extends GetxController {
   TimeSlot timeSlot = Get.arguments[0]['timeSlot'];
@@ -17,8 +17,10 @@ class VideoCallController extends GetxController {
   bool localAudioMute = false;
   bool localCamOff = false;
   int? remoteUid;
+
   // Instantiate the client
   late RtcEngine engine;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,7 +42,7 @@ class VideoCallController extends GetxController {
     if (videoCallEstablished) {
       Get.offNamedUntil(
           '/consultation-confirm', ModalRoute.withName('/appointment-detail'),
-          arguments: timeSlot);
+          arguments: [timeSlot, room]);
     } else {
       printError(info: 'video call not establish yet');
       Get.back();
@@ -63,12 +65,11 @@ class VideoCallController extends GetxController {
         },
         userJoined: (int uid, int elapsed) {
           //print("remote user $uid joined");
-
           remoteUid = uid;
           update();
         },
         userOffline: (int uid, UserOfflineReason reason) {
-          //print("remote user $uid left channel");
+          print("remote user $uid left channel in : $reason");
           remoteUid = null;
           completedConsultation();
           update();

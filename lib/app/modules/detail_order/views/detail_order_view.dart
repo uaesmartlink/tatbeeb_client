@@ -23,7 +23,7 @@ class DetailOrderView extends GetView<DetailOrderController> {
         widget: Padding(
           padding: const EdgeInsets.all(12),
           child: Container(
-            child: Obx(() => Column(
+            child:Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -113,7 +113,6 @@ class DetailOrderView extends GetView<DetailOrderController> {
                 )),
           ),
         ),
-      ),
       bottomNavigationBar: DashboardView(),
     );
   }
