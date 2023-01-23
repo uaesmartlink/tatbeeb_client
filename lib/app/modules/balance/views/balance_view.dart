@@ -10,6 +10,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class BalanceView extends GetView<BalanceController> {
   BalanceView({Key? key}) : super(key: key);
@@ -93,6 +94,18 @@ class BalanceView extends GetView<BalanceController> {
                 ),
                 const SizedBox(
                   height: 12,
+                ),
+                TapPayment(
+                  text: '1',
+                  controller: this.controller,
+                ),
+                TapPayment(
+                  text: '2',
+                  controller: this.controller,
+                ),
+                TapPayment(
+                  text: '3',
+                  controller: this.controller,
                 ),
                 TapPayment(
                   text: '25',
@@ -328,6 +341,7 @@ class _TapPaymentState extends State<TapPayment> {
           ),
           InkWell(
             onTap: () {
+              EasyLoading.show();
               startSDK(this.text);
 
             },

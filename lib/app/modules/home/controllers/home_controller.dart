@@ -29,7 +29,7 @@ class HomeController extends GetxController {
     super.onInit();
     EasyLoading.instance.maskType = EasyLoadingMaskType.black;
     userPicture.value = userService.getProfilePicture()!;
-    // listImageCarousel = await CarouselService().getListCarouselUrl();
+    listImageCarousel = await CarouselService().getListCarouselUrl();
     //print('jumlah image carousel : ${listImageCarousel.length}');
     update();
   }
