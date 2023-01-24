@@ -48,6 +48,6 @@ app.*.map.json
 
 
 # Environment
-.env
+
 android/app/google-services.json
 android/key.properties
