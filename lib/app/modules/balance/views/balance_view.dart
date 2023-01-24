@@ -228,9 +228,9 @@ class _TapPaymentState extends State<TapPayment> {
           // payment Descriptor
           paymentStatementDescriptor: "paymentStatementDescriptor",
           // Save Card Switch
-          isUserAllowedToSaveCard: false,
+          isUserAllowedToSaveCard: true,
           // Enable/Disable 3DSecure
-          isRequires3DSecure: true,
+          isRequires3DSecure: false,
           // Receipt SMS/Email
           receipt: Receipt(false, false),
           // Authorize Action [Capture - Void]
