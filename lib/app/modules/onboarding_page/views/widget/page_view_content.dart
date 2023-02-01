@@ -24,12 +24,12 @@ class PageViewContent extends StatelessWidget{
           Spacer(),
           Container(
             height: MediaQuery.of(context).size.height/3,
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Color(0xFF1b4170),
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(51),
-                    topRight:Radius.circular(51)
+                    topLeft: Radius.circular(25),
+                    topRight:Radius.circular(25)
                 )
             ),
             child: Column(
@@ -77,7 +77,7 @@ class PageViewContent extends StatelessWidget{
                 TextButton(
                     onPressed: onTap,
                     child: Text(
-                      'Skip'.tr,
+                      'Next'.tr,
                       style: TextStyle(
                           color: Color(0xFF0faa9a)
                       ),
