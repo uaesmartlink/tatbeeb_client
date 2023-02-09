@@ -4,28 +4,28 @@ import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 import 'package:hallo_doctor_client/app/service/user_service.dart';
 
 class OrderService {
-  Future<Order> getSuccessOrder(TimeSlot timeSlot) async {
+  Future<Appointment> getSuccessOrder(TimeSlot timeSlot) async {
     try {
       var orderSnapshot = await FirebaseFirestore.instance
-          .collection('Order')
+          .collection('Appointment')
           .where('timeSlotId', isEqualTo: timeSlot.timeSlotId)
           .where('status', isEqualTo: 'payment_success')
           .limit(1)
           .get();
       var data = orderSnapshot.docs.elementAt(0).data();
       data['orderId'] = orderSnapshot.docs.elementAt(0).reference.id;
-      Order order = Order.fromMap(data);
+      Appointment order = Appointment.fromMap(data);
       return order;
     } on FirebaseException catch (e) {
       return Future.error(e.message!);
     }
   }
 
-  Future<Order> getOrder(TimeSlot timeSlot,String timeSlotId) async {
+  Future<Appointment> getOrder(TimeSlot timeSlot,String timeSlotId) async {
     try {
       print("ZZZ1");
       var orderData = await FirebaseFirestore.instance
-          .collection('Order')
+          .collection('Appointment')
           .where('userId', isEqualTo: UserService().getUserId())
           .where('timeSlotId', isEqualTo: timeSlotId)
           .get();
@@ -39,7 +39,7 @@ class OrderService {
       print("ZZZ4");
       data['amount'] = data['amount'].toDouble();
       print(data);
-      Order order = Order.fromMap(data);
+      Appointment order = Appointment.fromMap(data);
       print("ZZZ5");
 
       return order;
@@ -60,9 +60,9 @@ class OrderService {
     }
   }
 
-  Future<void> setOrderToComplete(Order order) async {
+  Future<void> setOrderToComplete(Appointment order) async {
     await FirebaseFirestore.instance
-        .collection("Order")
+        .collection("Appointment")
         .doc(order.orderId)
         .update({'status': 'success'});
   }

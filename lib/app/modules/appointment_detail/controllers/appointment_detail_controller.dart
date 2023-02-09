@@ -20,7 +20,7 @@ class AppointmentDetailController extends GetxController
   //ParseObject? room;
   TimeSlot selectedTimeslot = Get.arguments;
   late Doctor doctor;
-  late Order order;
+  late Appointment order;
   late String token;
   var database = FirebaseDatabase.instance.ref();
   late StreamSubscription _roomStreaming;

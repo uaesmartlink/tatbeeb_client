@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -17,7 +17,7 @@ class ListChatView extends GetView<ListChatController> {
         centerTitle: true,
       ),
       body: StreamBuilder<List<types.Room>>(
-        // stream: FirebaseChatCore.instance.rooms(),
+        stream: FirebaseChatCore.instance.rooms(),
         initialData: const [],
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -61,7 +61,7 @@ class ListChatView extends GetView<ListChatController> {
         }
         return GestureDetector(
           onTap: () {
-            //Get.toNamed('/chat', arguments: [room, snapshot.data]);
+            Get.toNamed('/chat', arguments: [room, snapshot.data]);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(

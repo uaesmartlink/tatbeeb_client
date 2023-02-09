@@ -19,7 +19,7 @@ class DetailOrderView extends GetView<DetailOrderController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BackgroundContainer(
-        text: 'Detail Order'.tr,
+        text: 'Detail Appointment'.tr,
         widget: Padding(
           padding: const EdgeInsets.all(12),
           child: Container(

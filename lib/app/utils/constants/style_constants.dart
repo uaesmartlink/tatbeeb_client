@@ -54,7 +54,7 @@ var subTitleTextStyle = GoogleFonts.poppins(
 var doctorCategoryStyle = GoogleFonts.poppins(
     fontWeight: FontWeight.w400, fontSize: 10, color: mSubtitleColor);
 
-//Text Style for Detail Order
+//Text Style for Detail Appointment
 var tableColumHeader = GoogleFonts.poppins(
     fontWeight: FontWeight.w600, fontSize: 15, color: mTitleColor);
 

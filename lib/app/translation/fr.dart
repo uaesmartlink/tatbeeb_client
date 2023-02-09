@@ -54,7 +54,7 @@ const Map<String, String> fr = {
   '\n Unavailable': '\n Indisponible',
   'Please select time slot': 'Sélectionner l\'horaire',
   'Confirm': 'Confirmer',
-  'Detail Order': 'Détail de la commande',
+  'Detail Appointment': 'Détail de la commande',
   'before making a payment, make sure the items below are correct':
       'Avant de payer, assurez-vous que les articles suivants sont corrects',
   'Total : ': 'Total : ',
@@ -75,7 +75,7 @@ const Map<String, String> fr = {
       'Ce rdv n\'est reprogrammable qu\'une seule fois, êtes-vous sure de vouloir reprogrammer ce rendez-vous',
   'Appointment With': 'Rendez-vous avec',
   'Schedule Detail': 'Détail du rendez-vouse',
-  'Order at : ': 'Commandez a : ',
+  'Appointment at : ': 'Commandez a : ',
   'Appointment Time': 'Heure du rendez-vous',
   ' Minute': ' Minute',
   ' (Paid)': ' (Payé)',

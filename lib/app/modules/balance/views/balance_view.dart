@@ -230,7 +230,7 @@ class _TapPaymentState extends State<TapPayment> {
           // Save Card Switch
           isUserAllowedToSaveCard: true,
           // Enable/Disable 3DSecure
-          isRequires3DSecure: false,
+          isRequires3DSecure: true,
           // Receipt SMS/Email
           receipt: Receipt(false, false),
           // Authorize Action [Capture - Void]
@@ -343,7 +343,7 @@ class _TapPaymentState extends State<TapPayment> {
             onTap: () {
               EasyLoading.show();
               startSDK(this.text);
-
+              EasyLoading.dismiss();
             },
             child: Container(
               padding: const EdgeInsets.all(12),

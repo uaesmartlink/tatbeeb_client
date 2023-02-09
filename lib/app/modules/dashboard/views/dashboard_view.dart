@@ -5,10 +5,10 @@ import 'package:hallo_doctor_client/app/modules/balance/views/balance_view.dart'
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-//import 'package:hallo_doctor_client/app/modules/doctor_category/views/doctor_category_view.dart';
+import 'package:hallo_doctor_client/app/modules/doctor_category/views/doctor_category_view.dart';
 import 'package:hallo_doctor_client/app/modules/home/views/home_view.dart';
 
-//import 'package:hallo_doctor_client/app/modules/list_chat/views/list_chat_view.dart';
+import 'package:hallo_doctor_client/app/modules/list_chat/views/list_chat_view.dart';
 import 'package:hallo_doctor_client/app/modules/profile/views/profile_view.dart';
 import '../controllers/dashboard_controller.dart';
 
@@ -17,7 +17,8 @@ class DashboardView extends GetView<DashboardController> {
     HomeView(),
     AppointmentView(),
     BalanceView(),
-    ProfileView()
+    // ListChatView(),
+    ProfileView(),
   ];
   DateTime? currentBackPressTime;
 
@@ -109,6 +110,12 @@ class MyNavegateBar extends StatelessWidget{
                   Icons.payment_rounded,
                 ),
                 label: ''),
+        /*    BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.message,
+                  color: Colors.blue[500],
+                ),
+                label: "Chat".tr),*/
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.person,

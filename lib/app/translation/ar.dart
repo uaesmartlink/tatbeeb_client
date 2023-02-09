@@ -85,7 +85,7 @@ const Map<String, String> ar = {
   '\n Unavailable': 'غير متوفر',
   'Please select time slot': 'الرجاء تحديد خانة الوقت',
   'Confirm': 'تأكيد',
-  'Detail Order': 'تفاصيل الطلب',
+  'Detail Appointment': 'تفاصيل الطلب',
   'before making a payment, make sure the items below are correct':
       'قبل إجراء الدفع ، تأكد من صحة العناصر أدناه',
   'Total : ': 'المجموع:',
@@ -106,7 +106,7 @@ const Map<String, String> ar = {
       'يمكنك إعادة جدولة هذا الموعد مرة واحدة فقط ، هل أنت متأكد من أنك تريد إعادة جدولة هذا الموعد',
   'Appointment With': 'موعد مع',
   'Schedule Detail': 'تفاصيل الجدول',
-  'Order at : ': 'اطلب في:',
+  'Appointment at : ': 'اطلب في:',
   'Appointment Time': 'وقت الموعد',
   ' Minute': ' دقائق',
   ' (Paid)': '(مدفوع)',

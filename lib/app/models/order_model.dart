@@ -1,5 +1,5 @@
-class Order {
-  Order(
+class Appointment {
+  Appointment(
       {this.orderId, this.status, this.currency, this.amount, this.timeSlotId});
   String? orderId;
   String? status;
@@ -11,9 +11,9 @@ class Order {
   static const String _currency = 'currency';
   static const String _amount = 'amount';
   static const String _timeSlotId = 'timeSlotId';
-  factory Order.fromMap(Map<String, dynamic> map) {
+  factory Appointment.fromMap(Map<String, dynamic> map) {
 
-    return Order(
+    return Appointment(
         orderId: map[_orderId],
         status: map[_status],
         currency: map[_currency],

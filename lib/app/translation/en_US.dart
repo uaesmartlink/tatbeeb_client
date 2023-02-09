@@ -86,7 +86,7 @@ const Map<String, String> en = {
   '\n Unavailable': '\n Unavailable',
   'Please select time slot': 'Please select time slot',
   'Confirm': 'Confirm',
-  'Detail Order': 'Detail Order',
+  'Detail Appointment': 'Detail Appointment',
   'before making a payment, make sure the items below are correct':
       'before making a payment, make sure the items below are correct',
   'Total : ': 'Total : ',
@@ -107,7 +107,7 @@ const Map<String, String> en = {
       'You can only reschedule this appointment once, Are you sure want to reschedule this appointment',
   'Appointment With': 'Appointment With',
   'Schedule Detail': 'Schedule Detail',
-  'Order at : ': 'Order at : ',
+  'Appointment at : ': 'Appointment at : ',
   'Appointment Time': 'Appointment Time',
   ' Minute': ' Minute',
   ' (Paid)': ' (Paid)',

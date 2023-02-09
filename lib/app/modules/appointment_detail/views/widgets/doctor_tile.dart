@@ -67,7 +67,7 @@ class DoctorTile extends StatelessWidget {
                 ),
                 FittedBox(
                   child: Text(
-                    'Order at : '.tr +
+                    'Appointment at : '.tr +
                         TimeFormat().formatDate(orderTime.toLocal()),
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w700, color: Colors.grey),
