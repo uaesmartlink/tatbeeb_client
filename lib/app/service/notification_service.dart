@@ -340,7 +340,7 @@ class NotificationService {
         'timeSlotId': timeSlotId,
         'toDoctor': true,
       });
-      printInfo(info: 'notification user id : ' + doctorId);
+      printInfo(info: "notification user id : $doctorId");
       print('Notification start appointment send');
     } catch (e) {
       return Future.error(e.toString());
