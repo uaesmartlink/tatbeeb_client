@@ -13,69 +13,84 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: (){
-          return controller.getDoctorOnline();
+        onRefresh: () {
+          return controller.getOnlineDoctors();
         },
         child: BackgroundContainer(
           text: 'Online Doctors'.tr,
           widget: controller.obx(
-                  (onlineDoctors) => ListView.builder(
-                padding: EdgeInsets.only(top: 10.0),
-                itemCount: onlineDoctors!.length,
-                itemBuilder: (context, index) {
-                  return OnlineDoctorCard(
-                      doctorPhotoUrl: onlineDoctors[index].doctorPicture!,
-                      doctorName: onlineDoctors[index].doctorName!,
-                      doctorCategory: onlineDoctors[index].doctorCategory!.categoryName!,
-                      onTap:(){
-                        var timeslot=controller.timeSlotOfDoctors[index].timeSlot;
-                        int duration=controller.timeSlotOfDoctors[index].duration!;
-                        double price= controller.timeSlotOfDoctors[index].price!;
-                        viewBottomSheet(context,price,timeslot,duration,index);
-                      }
-                  );
-                },
-              ),
-              onEmpty: Center(
-                  child: EmptyList(
-                      msg: 'No Online Doctors'.tr))),
+              (onlineDoctors) => ListView.builder(
+                    padding: EdgeInsets.only(top: 10.0),
+                    itemCount: onlineDoctors!.length,
+                    itemBuilder: (context, index) {
+                      return OnlineDoctorCard(
+                          doctorPhotoUrl: onlineDoctors[index].doctorPicture!,
+                          doctorName: onlineDoctors[index].doctorName!,
+                          doctorCategory: onlineDoctors[index]
+                              .doctorCategory!
+                              .categoryName!,
+                          onTap: () {
+                            // var timeslot =
+                            //     controller.timeSlotOfDoctors[index].timeSlot;
+                            // int duration =
+                            //     controller.timeSlotOfDoctors[index].duration!;
+                            // double price =
+                            //     controller.timeSlotOfDoctors[index].price!;
+                            viewBottomSheet(
+                              context,
+                              // price,
+                              // timeslot,
+                              // duration,
+                              index,
+                            );
+                          });
+                    },
+                  ),
+              onEmpty: Center(child: EmptyList(msg: 'No Online Doctors'.tr))),
         ),
       ),
       bottomNavigationBar: DashboardView(),
     );
   }
-  viewBottomSheet(context,price,timeslot,timeslotDuration,index){
+
+  viewBottomSheet(
+    context,
+    // price,
+    // timeslot,
+    // timeslotDuration,
+    index,
+  ) {
     return showModalBottomSheet(
-       shape: RoundedRectangleBorder(
-           borderRadius:BorderRadius.only(
-             topLeft: Radius.circular(30),
-             topRight: Radius.circular(30)
-           )
-       ),
-        context:  context,
-        builder: (BuildContext c){
-          var timeAvailable= controller.timeSlotOfDoctors[index].timeSlot!.add(Duration(minutes: controller.timeSlotOfDoctors[index].duration!));
-          var timeAvailableFormat = DateFormat.Hm().format(timeAvailable);
-          return Padding(
-            padding: EdgeInsets.all(20),
-            child: SizedBox(
-              height: 300,
-              child:
-                Column(
-                    children: [
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        context: context,
+        builder: (BuildContext c) {
+          // var timeAvailable = controller.timeSlotOfDoctors[index].timeSlot!.add(
+          //     Duration(minutes: controller.timeSlotOfDoctors[index].duration!));
+          // var timeAvailableFormat = DateFormat.Hm().format(timeAvailable);
+          return FractionallySizedBox(
+            heightFactor: 0.5,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: SizedBox(
+                height: 300,
+                child: Column(
+                  children: [
                     /*  Text(
                         'Choose a duration for consulting '.tr,
                         style: TextStyle(
                           fontSize:17
                         ),
                       ),*/
-                      Text('Doctor is available until $timeAvailableFormat'.tr,
-                         style: TextStyle(
-                           color: Color(0xFF0faa9a)
-                         ),
-                      ),
-                      SizedBox(height:30,),
-                      /*  Row(
+                    /*   Text(
+                    'Doctor is available until $timeAvailableFormat'.tr,
+                    style: TextStyle(color: Color(0xFF0faa9a)),
+                  ),
+                  SizedBox(
+                    height: 30
+                  ),*/
+                    /*  Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                               CustomButton(
@@ -114,44 +129,53 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
                           ],
                         ),
                       SizedBox(height: 25,),*/
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text('Consulting will cost = '),
-                          Text('${controller.price.toString()} USD',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold
-                                ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 51,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomButton(
-                            onTap: (){
-                              Get.back();
-                            },
-                            text: 'Cancel'.tr,
-                            color:Colors.black54 ,
-                          ),
-                          const SizedBox(width: 20,),
-                          CustomButton(
-                            onTap: (){
-                              controller.onTap(index, controller.price, controller.duration,timeslot,timeslotDuration);
-                            },
-                            text: 'Confirm'.tr,
-                            color:Color(0xFF195076),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text('Consulting will cost = '),
+                        Text(
+                          '${controller.price.toString()} USD',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 51,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                          onTap: () {
+                            Get.back();
+                          },
+                          text: 'Cancel'.tr,
+                          color: Colors.black54,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        CustomButton(
+                          onTap: () {
+                            controller.onTap(
+                              index,
+                              controller.price,
+                              controller.duration,
+                              // timeslot,
+                              // timeslotDuration,
+                            );
+                          },
+                          text: 'Confirm'.tr,
+                          color: Color(0xFF195076),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
+            ),
           );
-        }
-    );
+        });
   }
 }

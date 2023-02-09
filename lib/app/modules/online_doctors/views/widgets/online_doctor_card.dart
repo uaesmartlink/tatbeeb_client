@@ -8,6 +8,7 @@ class OnlineDoctorCard extends StatelessWidget {
   final String doctorName;
   final String doctorCategory;
   final VoidCallback onTap;
+
   const OnlineDoctorCard(
       {Key? key,
         required this.doctorPhotoUrl,

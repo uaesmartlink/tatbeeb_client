@@ -25,8 +25,40 @@ class DoctorService {
       return Future.error(e.toString());
     }
   }
+  Future<Doctor> getDoctorById(String id) async{
 
+    try{
+      var doctor = await FirebaseFirestore.instance
+          .collection('Doctors')
+          .where('DoctorId', isEqualTo: id)
+          .get();
+      //print('doc element${user.docs.length}');
+      if (doctor.docs.isEmpty) return Doctor();
+      return doctor.docs.elementAt(0) as Doctor;
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
   //End by N
+  Future<List<Doctor>> getOnlineLawyers() async {
+    print("XXX");
+    List<Doctor> list = [];
+    var listLawyerQuery = await FirebaseFirestore.instance
+        .collection('Doctors')
+        .where('isOnline', isEqualTo: true)
+        .where('accountStatus', isEqualTo: 'active')
+        .get();
+
+    listLawyerQuery.docs.map((doc) {
+      var data = doc.data();
+      data['doctorId'] = doc.reference.id;
+      Doctor doctor = Doctor.fromJson(data);
+      print(doctor.doctorName);
+      list.add(doctor);
+    }).toList();
+
+    return list;
+  }
 
   //Get list of Doctor schedule base on doctor id
   Future<List<TimeSlot>> getDoctorTimeSlot(Doctor doctor) async {
@@ -36,18 +68,18 @@ class DoctorService {
       QuerySnapshot doctorScheduleRef = await FirebaseFirestore.instance
           .collection('DoctorTimeslot')
           .where('doctorId', isEqualTo: doctor.doctorId)
-          .where('timeSlot',isGreaterThanOrEqualTo: DateTime.now())
+          .where('timeSlot', isGreaterThanOrEqualTo: DateTime.now())
           .orderBy('timeSlot')
           .get();
-      for(var doc in doctorScheduleRef.docs){
+      for (var doc in doctorScheduleRef.docs) {
         var data = doc.data() as Map<String, dynamic>;
         data['timeSlotId'] = doc.reference.id;
         TimeSlot timeSlot = TimeSlot.fromJson(data);
-        if(timeSlot.available == true){
+        if (timeSlot.available == true) {
           listTimeslot.add(timeSlot);
         }
       }
-     /* var listTimeslot = doctorScheduleRef.docs.map((doc) {
+      /* var listTimeslot = doctorScheduleRef.docs.map((doc) {
         var data = doc.data() as Map<String, dynamic>;
         data['timeSlotId'] = doc.reference.id;
         TimeSlot timeSlot = TimeSlot.fromJson(data);
@@ -82,10 +114,10 @@ class DoctorService {
       List<Doctor> listDoctor = [];
       var listDoctorQuery;
       if (doctorCategory.categoryName == "All Doctors") {
-        listDoctorQuery =
-            await FirebaseFirestore.instance.collection('Doctors')
-                .where('accountStatus', isEqualTo: 'active')
-                .get();
+        listDoctorQuery = await FirebaseFirestore.instance
+            .collection('Doctors')
+            .where('accountStatus', isEqualTo: 'active')
+            .get();
       } else {
         listDoctorQuery = await FirebaseFirestore.instance
             .collection('Doctors')
@@ -155,8 +187,7 @@ class DoctorService {
         if (!doctorName.isEmpty) {
           if (!doctor.doctorName!
               .toLowerCase()
-              .contains(doctorName.toLowerCase()))
-            listDoctor.remove(doctor);
+              .contains(doctorName.toLowerCase())) listDoctor.remove(doctor);
         }
       });
       listDoctor.removeWhere((element) => element.accountStatus != 'active');

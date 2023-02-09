@@ -64,7 +64,9 @@ class Doctor {
       this.doctorShortBiography,
       this.doctorCategory,
       this.doctorHospital,
-      this.accountStatus});
+        this.accountStatus,
+        this.isOnline,
+      });
   String? id;
   @JsonKey(name: 'doctorId')
   String? doctorId;
@@ -82,6 +84,8 @@ class Doctor {
   String? doctorHospital;
   @JsonKey(name: 'accountStatus')
   String? accountStatus;
+  @JsonKey(name: 'isOnline')
+  bool? isOnline;
   factory Doctor.fromJson(Map<String, dynamic> json) => _$DoctorFromJson(json);
   Map<String, dynamic> toJson() => _$DoctorToJson(this);
   factory Doctor.fromFirestore(DocumentSnapshot doc) =>

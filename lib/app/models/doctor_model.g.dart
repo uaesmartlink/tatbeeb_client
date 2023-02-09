@@ -18,7 +18,9 @@ Doctor _$DoctorFromJson(Map<String, dynamic> json) => Doctor(
               json['doctorCategory'] as Map<String, dynamic>),
       doctorHospital: json['doctorHospital'] as String?,
       accountStatus: json['accountStatus'] as String?,
-    );
+      isOnline: json['isOnline'] as bool?,
+
+);
 
 Map<String, dynamic> _$DoctorToJson(Doctor instance) => <String, dynamic>{
       'doctorId': instance.doctorId,
@@ -29,4 +31,6 @@ Map<String, dynamic> _$DoctorToJson(Doctor instance) => <String, dynamic>{
       'doctorCategory': Doctor.doctorcategoryToJson(instance.doctorCategory),
       'doctorHospital': instance.doctorHospital,
       'accountStatus': instance.accountStatus,
-    };
+      'isOnline': instance.isOnline,
+
+};

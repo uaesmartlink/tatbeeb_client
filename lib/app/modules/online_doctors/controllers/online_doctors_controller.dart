@@ -22,7 +22,12 @@ class OnlineDoctorsController extends GetxController
   @override
   void onInit() async {
     super.onInit();
-    getDoctorOnline();
+    getOnlineDoctors();
+  }
+
+  Future<void> getOnlineDoctors() async {
+    allDoctor = await DoctorService().getOnlineLawyers();
+    change(allDoctor, status: RxStatus.success());
   }
 
   Future<void> getDoctorOnline() async {
@@ -183,19 +188,18 @@ class OnlineDoctorsController extends GetxController
     int selected,
     price,
     duration,
-    timeslot,
-    timeslotDuration,
+    // timeslot,
+    // timeslotDuration,
   ) {
     if (price != 0) {
-      timeSlotOfDoctors[selected].price = price;
-      timeSlotOfDoctors[selected].duration = duration;
+      // timeSlotOfDoctors[selected].price = price;
+      // timeSlotOfDoctors[selected].duration = duration;
       Get.toNamed(
-        '/detail-order',
+        '/appointment-detail',
         arguments: [
-          timeSlotOfDoctors[selected],
+          null,
           allDoctor[selected],
           15,
-          timeSlotOfDoctors
         ],
       );
     } else {

@@ -13,22 +13,11 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BackgroundContainer(
-        onTap: (){
-          Get.defaultDialog(
-              title: 'Reschedule Appointment'.tr,
-              content: Text(
-                'You can only reschedule this appointment once, Are you sure want to reschedule this appointment'
-                    .tr,
-                textAlign: TextAlign.center,
-              ),
-              onCancel: () {},
-              onConfirm: () {
-                Get.back();
-                controller.rescheduleAppointment();
-              });
+        onTap: () {
+          // controller.toChatDoctor();
         },
         text:'Consultation Detail'.tr,
-        icon: Icons.change_circle,
+        // icon: Icons.change_circle,
         widget: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(10),
@@ -164,3 +153,18 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
     );
   }
 }
+/*
+onTap: (){
+Get.defaultDialog(
+title: 'Reschedule Appointment'.tr,
+content: Text(
+'You can only reschedule this appointment once, Are you sure want to reschedule this appointment'
+    .tr,
+textAlign: TextAlign.center,
+),
+onCancel: () {},
+onConfirm: () {
+Get.back();
+controller.rescheduleAppointment();
+});
+},*/

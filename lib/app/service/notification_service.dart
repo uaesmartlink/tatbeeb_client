@@ -1,10 +1,9 @@
 //import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:custom_flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
@@ -15,8 +14,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:uuid/uuid.dart';
 import 'package:hallo_doctor_client/app/service/videocall_service.dart';
-import 'package:hallo_doctor_client/app/utils/environment.dart';
-import 'package:agora_rtc_engine/rtc_engine.dart';
+
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     "high_important_channel", "High Importance Notifications",
@@ -323,5 +321,29 @@ class NotificationService {
             UILocalNotificationDateInterpretation.absoluteTime,
         androidAllowWhileIdle: true);
     printInfo(info: 'set local notification 10 before notification happen');
+  }
+
+  Future notificationStartAppointment(String userName, String doctorId,
+      String roomName, String token, String timeSlotId) async {
+    try {
+      var callable = FirebaseFunctions.instance
+          .httpsCallable('notificationStartAppointment');
+      print('doctorName');
+      print(userName);
+      print(doctorId);
+      print(roomName);
+      await callable({
+        'name': userName,
+        'userId': doctorId,
+        'roomName': roomName,
+        'token': token,
+        'timeSlotId': timeSlotId,
+        'toDoctor': true,
+      });
+      printInfo(info: 'notification user id : ' + doctorId);
+      print('Notification start appointment send');
+    } catch (e) {
+      return Future.error(e.toString());
+    }
   }
 }
