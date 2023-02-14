@@ -17,8 +17,9 @@ class PaymentService {
     try {
       var callable = FirebaseFunctions.instance.httpsCallable('purchaseTimeslot');
       //final results =
+      print("ZZZ");
       await callable({'timeSlotId': timeSlotId, 'userId': uid, 'amount':amount,'duration':duration});
-
+      print("ZZZ");
       //var clientSecret = results.data;
       //return clientSecret;
     } catch (e) {

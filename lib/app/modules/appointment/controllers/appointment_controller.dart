@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
+import 'package:hallo_doctor_client/app/models/doctor_model.dart';
 import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
+import 'package:hallo_doctor_client/app/service/doctor_service.dart';
 import 'package:hallo_doctor_client/app/service/timeslot_service.dart';
 import 'package:hallo_doctor_client/app/service/user_service.dart';
 
@@ -25,6 +29,10 @@ class AppointmentController extends GetxController
     try {
       var listOrderedTimeslot = await _appointmentService
           .getListAppointment(userService.currentUser!);
+      listOrderedTimeslot.forEach((element) async {
+        element.doctor = await DoctorService().getDoctorById(UserService().currentUser!.uid);
+        print(element.doctor);
+      });
       if (listOrderedTimeslot.isEmpty) {
         return change([], status: RxStatus.empty());
       }

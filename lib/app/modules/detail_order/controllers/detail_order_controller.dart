@@ -58,19 +58,26 @@ class DetailOrderController extends GetxController {
     EasyLoading.show();
     try {
       String? userId = userService.currentUser!.uid;
+      print("A: " + userId);
       double? balance = await userService.getUserBalance(userId);
-     /* print(balance);
+      print("A: " + balance.toString());
+
+      /* print(balance);
       balance = 0;
       print(balance);*/
       if (balance! >= price!) {
+        print("XCC");
         await paymentService.makePayment(selectedTimeSlot.timeSlotId!,
             userService.getUserId(), price!, duration!);
         print('#####');
+        String timeSlotId = selectedTimeSlot.timeSlotId!;
+        print("ZZ: " + timeSlotId);
         print(timeSlots.length);
         for (int i = 0; i < timeSlots.length; i++) {
           print(timeSlots[i].timeSlot);
           await timeSlotService.deleteTimeSlot(timeSlots[i]);
         }
+        await timeSlotService.updateTimeSlot(selectedTimeSlot, price, duration,userId);
         EasyLoading.dismiss();
         Get.offNamed('/payment-success', arguments: [selectedTimeSlot, price]);
         notificationService
@@ -81,6 +88,8 @@ class DetailOrderController extends GetxController {
         Get.to(() => BalanceView());
       }
     } catch (err) {
+      EasyLoading.dismiss();
+
       Fluttertoast.showToast(msg: err.toString());
       return null;
     }

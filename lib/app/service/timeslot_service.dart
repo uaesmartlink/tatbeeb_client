@@ -7,6 +7,7 @@ class TimeSlotService {
   Future<List<TimeSlot>> getListAppointment(User user) async {
     try {
       var userId = user.uid;
+      print(userId);
       var documentSnapshot = await FirebaseFirestore.instance
           .collection('DoctorTimeslot')
           .where('bookByWho.userId', isEqualTo: userId)
@@ -68,14 +69,18 @@ class TimeSlotService {
     }
   }
 
-  Future updateTimeSlot(
-      TimeSlot timeSlot, double bookedAmount, int bookedDuration) async {
+  Future updateTimeSlot(TimeSlot timeSlot, double bookedAmount,
+      int bookedDuration, String userId) async {
     try {
       await FirebaseFirestore.instance
           .collection('DoctorTimeslot')
           .doc(timeSlot.timeSlotId)
-          .update(
-              {'bookedAmount': bookedAmount, 'bookedDuration': bookedDuration});
+          .update({
+        'bookedAmount': bookedAmount,
+        'bookedDuration': bookedDuration,
+        "bookByWho.userId": userId,
+        "charged": true,
+      });
     } catch (e) {
       return Future.error(e);
     }

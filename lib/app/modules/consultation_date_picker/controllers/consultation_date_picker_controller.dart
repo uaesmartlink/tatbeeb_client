@@ -108,6 +108,12 @@ class ConsultationDatePickerController extends GetxController
             timesSlot.add(schedule[i]);
             print(schedule[i].timeSlot);
         }
+        print("@@@@@");
+        print(selectedTimeSlot.value.timeSlot.toString());
+        print(doctor.doctorName);
+        print((durationSelectedIndex + 1) * 15);
+        print(timesSlot);
+        print("@@@@@");
         Get.toNamed(
           '/detail-order',
           arguments: [

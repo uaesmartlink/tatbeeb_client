@@ -88,7 +88,10 @@ class UserService {
 
   Future<double?> getUserBalance(String userId) async {
     try {
-      var userModel=await getUsernameById(userId);
+      print("VV " + userId);
+      var userModel =await getUsernameById(userId);
+      print("VV " + userModel.toString());
+
       return userModel?.balance;
     } catch (e) {
       return Future.error(e.toString());
@@ -112,8 +115,11 @@ class UserService {
           .doc(userId)
           .get();
       user.data();
+
       if (!user.exists) return null;
+      print("Yes");
       UserModel userModel = UserModel.fromJson(user.data()!);
+      print(userModel.balance);
       return userModel;
     } catch (e) {
       return Future.error(e.toString());

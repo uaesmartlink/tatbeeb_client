@@ -29,6 +29,6 @@ class PaymentSuccessController extends GetxController
   void goHome() {
     Get.offAllNamed('home');
     Get.find<DashboardController>().selectedIndex = 0;
-    Get.find<AppointmentController>().getListAppointment();
+    Get.lazyPut(()=>AppointmentController());
   }
 }
