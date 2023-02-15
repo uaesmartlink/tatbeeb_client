@@ -20,7 +20,7 @@ class ConsultationDatePickerView
           padding: const EdgeInsets.only(bottom: 61),
           child: Column(children: [
             Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 0),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -62,18 +62,31 @@ class ConsultationDatePickerView
                 ],
               ),
             ),
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Chose Duration'.tr,
-                    style: titleTextStyle,
+            Container(
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 40,
+                    )
+                  ]),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Chose Duration'.tr,
+                      style: titleTextStyle,
+                    ),
                   ),
-                ),
-                DurationTest(controller),
-              ],
+                  DurationTest(controller),
+                ],
+              ),
             ),
             Expanded(
               child: Container(
@@ -117,7 +130,11 @@ class ConsultationDatePickerView
                               var timeStartFormat = DateFormat.Hm()
                                   .format(timeSlot[index].timeSlot!);
                               var timeEnd = timeSlot[index].timeSlot!.add(
-                                  Duration(minutes: (controller.durationSelectedIndex + 1) * 15));
+                                  Duration(
+                                      minutes:
+                                          (controller.durationSelectedIndex +
+                                                  1) *
+                                              15));
                               var timeEndFormat =
                                   DateFormat.Hm().format(timeEnd);
                               if (timeSlot[index].available!) {
@@ -213,7 +230,7 @@ class ConsultationDatePickerView
   }
 }
 
-class DurationTest extends  StatefulWidget {
+class DurationTest extends StatefulWidget {
   ConsultationDatePickerController controller;
 
   DurationTest(this.controller);
@@ -222,47 +239,51 @@ class DurationTest extends  StatefulWidget {
   State<DurationTest> createState() => _DurationTest(controller);
 }
 
-class _DurationTest extends State<DurationTest>{
-
-
+class _DurationTest extends State<DurationTest> {
   @override
   Widget build(BuildContext context) {
-      return InkWell(
-        child: Row(
-          children: [
-            ...List.generate(
-              controller.durations.length,
-                  (index) => InkWell(
-                splashColor: Colors.cyanAccent,
-                onTap: () {
-                  setState(() {
-                    controller.durationSelectedIndex = index;
-                    controller.updateList();
-                    controller.update();
-
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  color: index == controller.durationSelectedIndex
-                      ? Color(0xFF1b4170)
-                      : Colors.white,
-                  child: Text(
-                    controller.durations[index],
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: index == controller.durationSelectedIndex
-                          ? Colors.white
-                          : Colors.black,
-                    ),
+    return InkWell(
+      child: Row(
+        children: [
+          ...List.generate(
+            controller.durations.length,
+            (index) => InkWell(
+              splashColor: Colors.cyanAccent,
+              onTap: () {
+                setState(() {
+                  controller.durationSelectedIndex = index;
+                  controller.updateList();
+                  controller.update();
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  bottom: 10,
+                  right: 8,
+                  left: 8,
+                ),
+                color: index == controller.durationSelectedIndex
+                    ? Color(0xFF1b4170)
+                    : Colors.white,
+                child: Text(
+                  controller.durations[index],
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: index == controller.durationSelectedIndex
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),
             ),
-          ],
-        ) ,
-      );
+          ),
+        ],
+      ),
+    );
   }
-   ConsultationDatePickerController controller;
+
+  ConsultationDatePickerController controller;
+
   _DurationTest(this.controller);
 }

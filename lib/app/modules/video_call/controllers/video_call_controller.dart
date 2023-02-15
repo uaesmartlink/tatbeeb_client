@@ -84,15 +84,16 @@ class VideoCallController extends GetxController {
   }
 
   Future endMeeting() async {
-    await destroyAgora();
-    Get.back();
-  }
-
-  Future destroyAgora() async {
     await VideoCallService().removeRoom(room);
     await engine.leaveChannel();
     await engine.destroy();
   }
+
+  // Future destroyAgora() async {
+  //   await VideoCallService().removeRoom(room);
+  //   await engine.leaveChannel();
+  //   await engine.destroy();
+  // }
 
   Future switchCamera() async {
     try {

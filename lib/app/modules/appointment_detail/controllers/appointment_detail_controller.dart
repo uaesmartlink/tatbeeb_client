@@ -16,6 +16,8 @@ import 'package:hallo_doctor_client/app/service/videocall_service.dart';
 import 'package:hallo_doctor_client/app/service/notification_service.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 class AppointmentDetailController extends GetxController
     with StateMixin<TimeSlot> {
   NotificationService notificationService = Get.find<NotificationService>();
@@ -78,7 +80,7 @@ class AppointmentDetailController extends GetxController
 
     _roomStreaming = roomSnapshot.listen((event) async {
       if (event.data() == null) {
-        videoCallStatus.value = false;
+        videoCallStatus.value = true;
       } else {
         await Future.delayed(const Duration(seconds: 1), () {
           videoCallStatus.value = true;
@@ -97,6 +99,8 @@ class AppointmentDetailController extends GetxController
   void startVideoCall() async{
     if (videoCallStatus.value) {
       // videoCallStatus.value = false;
+      EasyLoading.show();
+
       token = await VideoCallService()
           .getAgoraToken(selectedTimeslot!.timeSlotId!);
       print(token);
@@ -116,6 +120,8 @@ class AppointmentDetailController extends GetxController
           selectedTimeslot!.timeSlotId!,
           token,
           selectedTimeslot!.timeSlotId!);
+      EasyLoading.dismiss();
+
       Get.toNamed('/video-call', arguments: [
         {
           'timeSlot': selectedTimeslot,

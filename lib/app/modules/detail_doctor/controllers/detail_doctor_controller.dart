@@ -10,14 +10,17 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 class DetailDoctorController extends GetxController with StateMixin<Doctor> {
   final count = 0.obs;
   Doctor selectedDoctor = Get.arguments;
-  List<ReviewModel> listReview = [];
+  // List<ReviewModel> listReview = [];
   @override
   void onInit() {
     super.onInit();
-    ReviewService().getDoctorReview(doctor: selectedDoctor).then((value) {
+    change(selectedDoctor, status: RxStatus.success());
+
+   /* ReviewService().getDoctorReview(doctor: selectedDoctor).then((value) {
       listReview = value;
       change(selectedDoctor, status: RxStatus.success());
-    });
+
+    });*/
   }
 
   @override

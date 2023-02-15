@@ -127,7 +127,7 @@ const Map<String, String> en = {
   'List Users': 'List Users',
   'No users': 'No users',
   'Consultation Confirmation': 'Consultation Confirmation',
-  'Has the consultation with the': 'Has the consultation with the',
+  'Has the consultation with Dr. ': 'Has the consultation with Dr. ',
   'been completed?': 'been completed?',
   'Payment for doctor ': 'Payment for doctor ',
   ' will be made if you confirm this transaction':
