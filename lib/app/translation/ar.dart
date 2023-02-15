@@ -36,7 +36,7 @@ const Map<String, String> ar = {
   'You can search a doctor and book an appointment':
       'يمكنك البحث عن طبيب وحجز موعد',
   'Welcome, ': 'مرحباً ,',
-  'Quick consultation': 'استشارة سريعة',
+  'Quick Consultation': 'استشارة سريعة',
   'Find your doctor': 'ابحث عن طبيبك',
   'Chose a language for your app': 'اختر اللغة التي تريدها',
   'Profile': 'الملف الشخصي',

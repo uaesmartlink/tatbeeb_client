@@ -36,7 +36,7 @@ const Map<String, String> en = {
   'You can search a doctor and book an appointment':
       'You can search a doctor and book an appointment',
   'Welcome, ': 'Welcome, ',
-  'Quick consultation': 'Quick consultation',
+  'Quick Consultation': 'Quick Consultation',
   'Find your doctor': 'Find your doctor',
   'Chose a language for your app': 'Chose a language for your app',
   'Profile': 'Profile',

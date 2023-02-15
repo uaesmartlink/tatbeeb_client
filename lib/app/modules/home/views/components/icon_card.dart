@@ -1,33 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
-import '../../../../utils/localization.dart';
 
 class IconCard extends StatelessWidget {
-  final IconData? iconData;
-  final Color? color1;
-  final Color? color2;
-  final String? text;
-  final String? text1;
-  final VoidCallback? onTap;
+  final String path;
+  final String text;
+  final VoidCallback onTap;
 
-  const IconCard(
-      {Key? key,
-      this.iconData,
-      this.color1,
-      this.color2,
-      this.text,
-      this.text1,
-      this.onTap})
-      : super(key: key);
+  const IconCard({required this.path, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            width: 75,
+            height: 75,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(path),
+              ),
+            ),
+          ),
+          Card(
+            child: Container(
+              height: 40,
+              width: 150,
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                textAlign: TextAlign.center,
+                text,
+                style: const TextStyle(
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*  child: Container(
         height: 130,
         width: 150,
         child: Stack(
@@ -103,7 +119,4 @@ class IconCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
+      ),*/

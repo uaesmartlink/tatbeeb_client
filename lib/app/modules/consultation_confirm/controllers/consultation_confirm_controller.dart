@@ -34,9 +34,9 @@ class ConsultationConfirmController extends GetxController {
       EasyLoading.show();
       print("#####");
       print(timeSlotId);
-      await TimeSlotService().updateTimeslotAvailable(timeSlotId);
+      // await TimeSlotService().updateTimeslotAvailable(timeSlotId);
       print("****");
-      await OrderService().confirmOrder(timeSlot,timeSlotId);
+      // await OrderService().confirmOrder(timeSlot,timeSlotId);
       print("----");
       EasyLoading.dismiss();
       Get.offNamedUntil('/review', ModalRoute.withName('/appointment-detail'),

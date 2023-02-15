@@ -91,6 +91,6 @@ flutter_icons:
   ios: true
   image_path: "assets/icons/ic_launcher.png"
 
-#flutter_native_splash:
-#  color: "#1b4170"
-#  image: "assets/icons/splash.gif"
+flutter_native_splash:
+  color: "#1b4170"
+  image: "assets/icons/splash.gif"
