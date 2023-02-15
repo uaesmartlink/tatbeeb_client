@@ -16,7 +16,7 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
         onTap: () {
           // controller.toChatDoctor();
         },
-        text:'Consultation Detail'.tr,
+        text: 'Consultation Detail'.tr,
         // icon: Icons.change_circle,
         widget: SingleChildScrollView(
           child: Padding(
@@ -74,17 +74,20 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
                           children: [
                             TableRow(children: [
                               SizedBox(
-                                  height: 50, child: Text('Appointment Time'.tr)),
+                                  height: 50,
+                                  child: Text('Appointment Time'.tr)),
                               SizedBox(
                                   height: 50,
                                   child: Text(TimeFormat().formatDate(
-                                      controller.selectedTimeslot.timeSlot!))),
+                                      controller.selectedTimeslot!.timeSlot!))),
                             ]),
                             TableRow(children: [
                               SizedBox(height: 50, child: Text('Duration'.tr)),
                               SizedBox(
-                                  height: 50,
-                                  child: Text(': ${controller.selectedTimeslot.bookedDuration}${' Minute'.tr}')),
+                                height: 50,
+                                child: Text(
+                                    ': ${controller.duration}${' Minute'.tr}'),
+                              ),
                             ]),
                             TableRow(
                               children: [
@@ -95,7 +98,7 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
                                 SizedBox(
                                   height: 50,
                                   child: Text(
-                                    ': \$${controller.selectedTimeslot.bookedAmount}${' (Paid)'.tr}',
+                                    ': \$${controller.doctor.doctorPrice! / 4}${' (Paid)'.tr}',
                                   ),
                                 ),
                               ],
@@ -109,7 +112,8 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
                                 SizedBox(
                                   height: 50,
                                   child: Text(
-                                    controller.selectedTimeslot.status ?? '',
+                                    "Available",
+                                    // controller.selectedTimeslot!.status ?? '',
                                   ),
                                 ),
                               ],
@@ -119,17 +123,19 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
                       ],
                     ),
                   ),
-                  Obx(() => VideoCallButton(
-                        function: () {
-                          controller.startVideoCall();
-                        },
-                        text: 'Start Consultation'.tr,
-                        active: controller.videoCallStatus.value,
-                        nonActiveMsg:
-                            'the doctor has canceled the appointment, and your payment has been refunded'
-                                .tr,
-                      )),
-                  SizedBox(
+                  Obx(
+                    () => VideoCallButton(
+                      function: () {
+                        controller.startVideoCall();
+                      },
+                      text: 'Start Consultation'.tr,
+                      active: controller.videoCallStatus.value,
+                      nonActiveMsg:
+                          'the doctor has canceled the appointment, and your payment has been refunded'
+                              .tr,
+                    ),
+                  ),
+                  /*SizedBox(
                     height: 10,
                   ),
                   controller.selectedTimeslot.status == 'refund'
@@ -142,7 +148,7 @@ class AppointmentDetailView extends GetView<AppointmentDetailController> {
                           'the start consultation button will be active when the doctor starts the consultation'
                               .tr,
                           style: Styles.greyTextInfoStyle,
-                        ),
+                        ),*/
                 ],
               ),
             ),

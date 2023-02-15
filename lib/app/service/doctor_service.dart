@@ -177,19 +177,19 @@ class DoctorService {
       var doctorRef =
           await FirebaseFirestore.instance.collection('Doctors').get();
       List<Doctor> listDoctor = [];
-      doctorRef.docs.forEach((element) {
+      for (var element in doctorRef.docs) {
         var data = element.data();
         data['doctorId'] = element.reference.id;
         Doctor doctor = Doctor.fromJson(data);
         listDoctor.add(doctor);
         print(doctor.doctorName);
         print(doctorName.isEmpty);
-        if (!doctorName.isEmpty) {
+        if (doctorName.isNotEmpty) {
           if (!doctor.doctorName!
               .toLowerCase()
               .contains(doctorName.toLowerCase())) listDoctor.remove(doctor);
         }
-      });
+      }
       listDoctor.removeWhere((element) => element.accountStatus != 'active');
       return listDoctor;
     } catch (e) {

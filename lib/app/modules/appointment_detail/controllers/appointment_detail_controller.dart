@@ -25,8 +25,8 @@ class AppointmentDetailController extends GetxController
   var videoCallStatus = true.obs;
 
   //ParseObject? room;
-  dynamic selectedTimeslot = Get.arguments[0];
-  late Doctor doctor = Get.arguments[1];
+  TimeSlot? selectedTimeslot = Get.arguments[0];
+  Doctor doctor = Get.arguments[1];
   int duration = Get.arguments[2];
   late Appointment order;
   late String token;
@@ -38,12 +38,12 @@ class AppointmentDetailController extends GetxController
   void onInit() async {
     super.onInit();
     if (selectedTimeslot != null) {
-      DoctorService().getDoctorDetail(selectedTimeslot.doctorid!).then(
+      DoctorService().getDoctorDetail(selectedTimeslot!.doctorid!).then(
         (doc) {
-          selectedTimeslot.doctor = doc;
+          selectedTimeslot!.doctor = doc;
           doctor = doc;
           change(selectedTimeslot, status: RxStatus.success());
-          if (selectedTimeslot.status == 'refund') {
+          if (selectedTimeslot!.status == 'refund') {
             Get.defaultDialog(
                 title: 'Appointment Canceled'.tr,
                 content: Text(
@@ -73,14 +73,14 @@ class AppointmentDetailController extends GetxController
     }
     var roomSnapshot = FirebaseFirestore.instance
         .collection('RoomVideoCall')
-        .doc(selectedTimeslot.timeSlotId!)
+        .doc(DateTime.now().hashCode.toString())
         .snapshots();
 
     _roomStreaming = roomSnapshot.listen((event) async {
       if (event.data() == null) {
         videoCallStatus.value = false;
       } else {
-        await Future.delayed(const Duration(seconds: 3), () {
+        await Future.delayed(const Duration(seconds: 1), () {
           videoCallStatus.value = true;
           token = event.data()!['token'];
           printInfo(info: 'token : $token');
@@ -98,32 +98,33 @@ class AppointmentDetailController extends GetxController
     if (videoCallStatus.value) {
       // videoCallStatus.value = false;
       token = await VideoCallService()
-          .getAgoraToken(DateTime.now().hashCode.toString());
+          .getAgoraToken(selectedTimeslot!.timeSlotId!);
       print(token);
       final roomData = <String, dynamic>{
-        'room': selectedTimeslot.timeSlotId,
+        'room': selectedTimeslot!.timeSlotId,
         'token': token,
         'timestamp': Timestamp.fromDate(DateTime.now())
       };
 
       await VideoCallService()
-          .createRoom(selectedTimeslot.timeSlotId!, roomData);
+          .createRoom(selectedTimeslot!.timeSlotId!, roomData);
+      String doctorId = await DoctorService().getUserId(doctor);
 
       notificationService.notificationStartAppointment(
           UserService().currentUser!.displayName!,
-          selectedTimeslot.doctor!.doctorId!,
-          selectedTimeslot.timeSlotId!,
+          doctorId,
+          selectedTimeslot!.timeSlotId!,
           token,
-          selectedTimeslot.timeSlotId!);
+          selectedTimeslot!.timeSlotId!);
       Get.toNamed('/video-call', arguments: [
         {
           'timeSlot': selectedTimeslot,
-          'room': selectedTimeslot.timeSlotId,
+          'room': selectedTimeslot!.timeSlotId,
           'token': token
         }
       ]);
     } else {
-      if (selectedTimeslot.status == 'refund') {
+      if (selectedTimeslot!.status == 'refund') {
         Fluttertoast.showToast(
             msg:
                 'the doctor has canceled the appointment, and your payment has been refunded'
@@ -145,7 +146,7 @@ class AppointmentDetailController extends GetxController
 
   Future getOrder() async {
     try {
-      order = await OrderService().getSuccessOrder(selectedTimeslot);
+      order = await OrderService().getSuccessOrder(selectedTimeslot!);
     } catch (err) {
       Fluttertoast.showToast(msg: err.toString());
     }
@@ -153,7 +154,28 @@ class AppointmentDetailController extends GetxController
 
   void rescheduleAppointment() {
     Get.toNamed('/consultation-date-picker',
-        arguments: [selectedTimeslot.doctor, selectedTimeslot]);
+        arguments: [selectedTimeslot!.doctor, selectedTimeslot]);
   }
+  
+  /*void toChatLawyer() async {
+    // String lawyerUserId = await LawyerService().getUserId(lawyer);
+    print(lawyer.lawyerId);
+    print(lawyer.lawyerName);
+    print(lawyer.lawyerPicture);
+    if (lawyer.lawyerId!.isEmpty) {
+      Fluttertoast.showToast(msg: 'Lawyer no longger exist'.tr);
+      return;
+    }
+    final otherUser = types.User(
+      id: lawyer.lawyerId!,
+      firstName: lawyer.lawyerName,
+      imageUrl: lawyer.lawyerPicture,
+    );
+
+    final room = await FirebaseChatCore.instance.createRoom(
+      otherUser,
+    );
+    Get.toNamed('/chat', arguments: [room, lawyer]);
+  }*/
 
 }

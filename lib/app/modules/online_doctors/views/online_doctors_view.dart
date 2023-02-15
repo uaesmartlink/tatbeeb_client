@@ -38,9 +38,9 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
                             //     controller.timeSlotOfDoctors[index].price!;
                             viewBottomSheet(
                               context,
-                              // price,
+                              onlineDoctors[index].doctorPrice! / 4,
                               // timeslot,
-                              // duration,
+                              15,
                               index,
                             );
                           });
@@ -55,9 +55,9 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
 
   viewBottomSheet(
     context,
-    // price,
+    price,
     // timeslot,
-    // timeslotDuration,
+    timeslotDuration,
     index,
   ) {
     return showModalBottomSheet(
@@ -134,7 +134,7 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
                       children: [
                         Text('Consulting will cost = '),
                         Text(
-                          '${controller.price.toString()} USD',
+                          '${price.toString()} USD to 15 minutes',
                           style: TextStyle(
                               fontSize: 17, fontWeight: FontWeight.bold),
                         ),
@@ -160,8 +160,8 @@ class OnlineDoctorsView extends GetView<OnlineDoctorsController> {
                           onTap: () {
                             controller.onTap(
                               index,
-                              controller.price,
-                              controller.duration,
+                              price,
+                              15,
                               // timeslot,
                               // timeslotDuration,
                             );

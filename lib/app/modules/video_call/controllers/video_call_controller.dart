@@ -35,7 +35,7 @@ class VideoCallController extends GetxController {
 
   @override
   void onClose() async {
-    await destroyAgora();
+    await endMeeting();
   }
 
   completedConsultation() async {
@@ -54,7 +54,11 @@ class VideoCallController extends GetxController {
     await [Permission.microphone, Permission.camera].request();
     //create the engine
     engine = await RtcEngine.create(Environment.agoraAppId);
+
     await engine.enableVideo();
+    await engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    await engine.setClientRole(ClientRole.Broadcaster);
+
     engine.setEventHandler(
       RtcEngineEventHandler(
         joinChannelSuccess: (String channel, int uid, int elapsed) {

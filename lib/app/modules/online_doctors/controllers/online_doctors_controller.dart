@@ -16,9 +16,6 @@ class OnlineDoctorsController extends GetxController
   //List<TimeSlot> allTimeSlot = [];
   var selectedBottomSheetButton = 3.obs;
 
-  double? price = 2.5;
-  int? duration = 0;
-
   @override
   void onInit() async {
     super.onInit();
