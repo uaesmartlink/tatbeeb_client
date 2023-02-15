@@ -338,8 +338,7 @@ class NotificationService {
         'roomName': roomName,
         'token': token,
         'timeSlotId': timeSlotId,
-        'toDoctor': true,
-      });
+       });
       printInfo(info: "notification user id : $doctorId");
       print('Notification start appointment send');
     } catch (e) {
