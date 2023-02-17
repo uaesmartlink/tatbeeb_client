@@ -44,6 +44,11 @@ class DetailOrderController extends GetxController {
   OrderDetailModel buildOrderDetail() {
     var formatter = DateFormat('yyyy-MM-dd hh:mm');
     var time = formatter.format(selectedTimeSlot.timeSlot!);
+    print("----");
+    print(time);
+    print(duration);
+    print(price);
+    print("----");
 
     var orderDetail = OrderDetailModel(
         itemId: selectedTimeSlot.timeSlotId!,
@@ -58,7 +63,7 @@ class DetailOrderController extends GetxController {
     EasyLoading.show();
     try {
       String? userId = userService.currentUser!.uid;
-      print("A: " + userId);
+      print("A: " + userService.currentUser!.displayName!);
       double? balance = await userService.getUserBalance(userId);
       print("A: " + balance.toString());
 
@@ -77,7 +82,8 @@ class DetailOrderController extends GetxController {
           print(timeSlots[i].timeSlot);
           await timeSlotService.deleteTimeSlot(timeSlots[i]);
         }
-        await timeSlotService.updateTimeSlot(selectedTimeSlot, price, duration,userId);
+        await timeSlotService.updateTimeSlot(
+            selectedTimeSlot, price, duration, userId);
         EasyLoading.dismiss();
         Get.offNamed('/payment-success', arguments: [selectedTimeSlot, price]);
         notificationService

@@ -47,8 +47,8 @@ class AppointmentView extends GetView<AppointmentController> {
                         onTap: () {
                           Get.toNamed('/appointment-detail', arguments: [
                             listTimeslot[index],
-                            null,
-                            0,
+                            listTimeslot[index].doctor,
+                            listTimeslot[index].duration,
                           ]);
                         },
                         leading: Container(

@@ -353,14 +353,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  custom_flutter_callkit_incoming:
-    dependency: "direct main"
-    description:
-      name: custom_flutter_callkit_incoming
-      sha256: bc0d90663e8967ff5640b62584c980a6406239ea0950698f7800c34d71282195
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.3"
   dart_style:
     dependency: transitive
     description:
@@ -582,6 +574,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
+  flutter_callkit_incoming:
+    dependency: "direct main"
+    description:
+      name: flutter_callkit_incoming
+      sha256: e689c7f6152e14dc5ef28c163384e3959b31cc14420d8ef3910283b95bc95666
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2+2"
   flutter_chat_types:
     dependency: "direct main"
     description:

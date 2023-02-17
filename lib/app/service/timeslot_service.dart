@@ -6,8 +6,10 @@ import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 class TimeSlotService {
   Future<List<TimeSlot>> getListAppointment(User user) async {
     try {
+      print(user.displayName);
       var userId = user.uid;
-      print(userId);
+      print("XAX");
+
       var documentSnapshot = await FirebaseFirestore.instance
           .collection('DoctorTimeslot')
           .where('bookByWho.userId', isEqualTo: userId)
@@ -16,6 +18,7 @@ class TimeSlotService {
       if (documentSnapshot.docs.isEmpty) {
         return [];
       }
+      print("XAX");
       List<TimeSlot> listTimeslot = documentSnapshot.docs.map((doc) {
         var data = doc.data();
         data['timeSlotId'] = doc.reference.id;

@@ -14,7 +14,7 @@ class AppointmentController extends GetxController
     with StateMixin<List<TimeSlot>> {
   //final count = 0.obs;
   final TimeSlotService _appointmentService = Get.find();
-  UserService userService = Get.find();
+  final UserService userService = Get.find();
 
   @override
   void onInit() async {
@@ -27,6 +27,16 @@ class AppointmentController extends GetxController
 
   Future<void> getListAppointment() async {
     try {
+      var listAppointmentedTimeslot = await _appointmentService
+          .getListAppointment(userService.currentUser!);
+      if (listAppointmentedTimeslot.isEmpty) {
+        return change([], status: RxStatus.empty());
+      }
+      change(listAppointmentedTimeslot, status: RxStatus.success());
+    } catch (err) {
+      change([], status: RxStatus.error(err.toString()));
+    }
+  /*  try {
       var listOrderedTimeslot = await _appointmentService
           .getListAppointment(userService.currentUser!);
       listOrderedTimeslot.forEach((element) async {
@@ -39,7 +49,7 @@ class AppointmentController extends GetxController
       change(listOrderedTimeslot, status: RxStatus.success());
     } catch (err) {
       change([], status: RxStatus.error(err.toString()));
-    }
+    }*/
   }
 
   // todo: confirm go home when book appointment

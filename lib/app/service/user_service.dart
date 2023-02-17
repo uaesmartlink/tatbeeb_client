@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hallo_doctor_client/app/models/user_model.dart';
+
 //import 'package:hallo_doctor_client/app/service/firebase_service.dart';
 import 'package:path/path.dart';
 
@@ -10,7 +11,9 @@ import 'auth_service.dart';
 
 class UserService {
   static User? user;
+
   set currentUser(User? user) => UserService.user = user;
+
   User? get currentUser {
     FirebaseAuth auth = FirebaseAuth.instance;
     if (auth.currentUser != null) {
@@ -73,7 +76,7 @@ class UserService {
   Future changePassword(String currentPassword, String newPassword) async {
     try {
       bool validatePassword =
-          await AuthService().verifyPassword(currentPassword);
+      await AuthService().verifyPassword(currentPassword);
       if (validatePassword) {
         currentUser!.updatePassword(newPassword);
       }
@@ -89,7 +92,7 @@ class UserService {
   Future<double?> getUserBalance(String userId) async {
     try {
       print("VV " + userId);
-      var userModel =await getUsernameById(userId);
+      var userModel = await getUsernameById(userId);
       print("VV " + userModel.toString());
 
       return userModel?.balance;
@@ -97,17 +100,19 @@ class UserService {
       return Future.error(e.toString());
     }
   }
-  Future updateUserBalance(String userId, double amount) async{
-      try {
-        double? balance = await getUserBalance(userId);
-        FirebaseFirestore.instance
-            .collection('Users')
-            .doc(currentUser!.uid)
-            .update({'balance': (balance! + amount)});
-      } catch (e) {
-        Future.error(e.toString());
-      }
+
+  Future updateUserBalance(String userId, double amount) async {
+    try {
+      double? balance = await getUserBalance(userId);
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(currentUser!.uid)
+          .update({'balance': (balance! + amount)});
+    } catch (e) {
+      Future.error(e.toString());
+    }
   }
+
   Future<UserModel?> getUsernameById(String userId) async {
     try {
       var user = await FirebaseFirestore.instance
@@ -118,6 +123,7 @@ class UserService {
 
       if (!user.exists) return null;
       print("Yes");
+      print(user.data()!);
       UserModel userModel = UserModel.fromJson(user.data()!);
       print(userModel.balance);
       return userModel;
@@ -148,7 +154,7 @@ class UserService {
 
   Future deleteUserAccount(String userId) async {
     try {
-       await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('Users')
           .doc(userId)
           .delete();

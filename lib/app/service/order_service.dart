@@ -7,7 +7,7 @@ class OrderService {
   Future<Appointment> getSuccessOrder(TimeSlot timeSlot) async {
     try {
       var orderSnapshot = await FirebaseFirestore.instance
-          .collection('Appointment')
+          .collection('Order')
           .where('timeSlotId', isEqualTo: timeSlot.timeSlotId)
           .where('status', isEqualTo: 'payment_success')
           .limit(1)
@@ -25,7 +25,7 @@ class OrderService {
     try {
       print("ZZZ1");
       var orderData = await FirebaseFirestore.instance
-          .collection('Appointment')
+          .collection('Order')
           .where('userId', isEqualTo: UserService().getUserId())
           .where('timeSlotId', isEqualTo: timeSlotId)
           .get();
@@ -62,7 +62,7 @@ class OrderService {
 
   Future<void> setOrderToComplete(Appointment order) async {
     await FirebaseFirestore.instance
-        .collection("Appointment")
+        .collection("Order")
         .doc(order.orderId)
         .update({'status': 'success'});
   }

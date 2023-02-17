@@ -1,10 +1,11 @@
 //import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:custom_flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:get/get.dart';
 import 'package:hallo_doctor_client/app/models/time_slot_model.dart';
 import 'package:hallo_doctor_client/app/service/timeslot_service.dart';
@@ -149,7 +150,7 @@ class NotificationService {
         }
       }
     });
-    /* FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('a new message opened app are was published');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -158,7 +159,7 @@ class NotificationService {
             title: notification.title!,
             content: Text(notification.body ?? 'body empty'));
       }
-    });*/
+    });
   }
 
   void setupTimezone() async {
@@ -249,8 +250,8 @@ class NotificationService {
         'audioSessionPreferredIOBufferDuration': 0.005,
         'supportsDTMF': true,
         'supportsHolding': true,
-        'supportsGrouping': false,
-        'supportsUngrouping': false,
+        'supportsGrouping': true,
+        'supportsUngrouping': true,
         'ringtonePath': 'system_ringtone_default'
       }
     };
